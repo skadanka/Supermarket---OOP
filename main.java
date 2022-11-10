@@ -36,9 +36,54 @@ class Commerce{
         return false;
     }
 
-    public boolean CreateNewOrder(String address){
-        // 
-        return false;
+    public String CreateNewOrder(String address, String login_id, String product_name){
+        // Create Order
+        //      if login_id in the data base and Product_Name exists
+        //      else reject the order
+        // Return The created order_id
+        return "";
     }
+
+    public void AddProductToOrder(String order_id, String login_id, String product_name){
+    // check if the login_id exist in the database? and use is prime
+    // check order_id exist in the database
+    // check product exist in the database?
+    // Create new Line_item? and add a field to orders to contain all the lineitems?
+    }
+
+    public void DisplayOrder(String login_id){
+        // Get all Sorted Orders
+        // Get the first Order where login_id == Order.User_id
+        // ** Order_id, Create, Shipped, Address, OrderStatus, Price **
+    }
+
+    public void LinkProduct(String product_name, int price, int quantity){
+        // Check if current logged user is Premium Account
+        // Check if product exist in the database
+        // Create new LineItem contain all the data about the product, price quantity
+        // Link The LineItem to current User
+    }
+
+    public void AddProduct(String product_name, String supplier_name){
+        // all users can add product with not link between them and the product
+        // check if product already exist in the database?
+        // check if supplier exist and link else create?
+        // Create product and link to supplier
+    }
+
+    public void DeleteProduct(String product_name){
+        // check product exist in the System
+        // Delete the product, and understand how to handle the links(lineItem, supplier) of product
+    }
+
+    public void ShowAllObjects(){
+        // Display all object with unique id of Objects
+    }
+
+    public void ShowObjectId(String id){
+        // check object exist in the system
+        // Understand how to display the object
+    }
+
     
 }
