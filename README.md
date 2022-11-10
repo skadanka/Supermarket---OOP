@@ -1,4 +1,6 @@
 # Project1
+![Class Diagram](https://user-images.githubusercontent.com/62882347/201133731-ee75ddcb-9efb-412d-8b68-bd1b6ff68439.jpg)
+
 
 ##### Eden 10/11/22
 The Basic Structure of the project Done.
