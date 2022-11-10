@@ -1,3 +1,5 @@
+import java.util.Date;
+
 public class ImmediatePayment extends Payment {
     private boolean phoneConfirmation;
     
@@ -5,7 +7,8 @@ public class ImmediatePayment extends Payment {
     public ImmediatePayment() {
     }
 
-    public ImmediatePayment(boolean phoneConfirmation) {
+    public ImmediatePayment(boolean phoneConfirmation, String id, Date paid, float total, String Details) {
+        super(id, paid, total, Details);
         this.phoneConfirmation = phoneConfirmation;
     }
 
@@ -26,16 +29,6 @@ public class ImmediatePayment extends Payment {
         return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof ImmediatePayment)) {
-            return false;
-        }
-        ImmediatePayment immediatePayment = (ImmediatePayment) o;
-        return phoneConfirmation == immediatePayment.phoneConfirmation;
-    }
 
     @Override
     public String toString() {

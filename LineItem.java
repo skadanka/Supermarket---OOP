@@ -6,6 +6,11 @@ public class LineItem {
     private int quantity;
     private int price;
 
+    // Link Ideas
+    private String shoppingCart_id = null;
+    private String order_id = null;
+    private String prodcut_id = null;
+
 
     public LineItem() {
         this.id = String.valueOf(numOfLineItems++);
