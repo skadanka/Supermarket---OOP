@@ -1,29 +1,34 @@
 import java.util.Date;
+import java.util.*;
 
 
 public class Order {
     private static int numOfOrders = 0; // Incremental id for all orders created 
+    private final String objectID;
 
-
-    private final String name;
+    private String name;
     private Date ordered;
     private Date shipped;
     private String Address;
     private OrderStatus status;
     private float total;
 
+    // Links
+    private Set<LineItem> items;
+    private Set<Payment> payments; 
 
-    public Order() {
-        name = String.valueOf(numOfOrders++);
-    }
 
-    public Order(Date ordered, Date shipped, String Address, OrderStatus status, float total) {
-        name = String.valueOf(numOfOrders++);
+
+    public Order(String name, Date ordered, Date shipped, String Address, OrderStatus status, float total) {
+        this.objectID = 'O' + String.valueOf(numOfOrders++);
+        this.name = name;
         this.ordered = new Date();
         this.shipped = null;
         this.Address = Address;
-        this.status = status;
+        this.status = OrderStatus.New;
         this.total = total;
+        this.items = new HashSet<>();
+        this.payments = new HashSet<>();
     }
 
     public Date getOrdered() {
@@ -99,7 +104,7 @@ public class Order {
             return false;
         }
         Order order = (Order) o;
-        return this.name == order.name;
+        return this.objectID == order.objectID;
     }
 
 

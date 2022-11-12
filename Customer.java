@@ -1,23 +1,25 @@
 public class Customer {
    private static int numOfCustomers = 0;
 
-    private final String name;
+    private final String Object_id;
+    private String id;
 
     private String Address;
     private String phone;
     private String email;
 
-
+    private Account account;
 
     public Customer() {
-       this.name = String.valueOf(numOfCustomers++); 
+       this.Object_id = String.valueOf(numOfCustomers++); 
     }
 
-    public Customer(String Address, String phone, String email) {
-        this.name = String.valueOf(numOfCustomers++); 
+    public Customer(String Address, String phone, String email, String id) {
+        this.Object_id = 'C' + String.valueOf(numOfCustomers++); 
         this.Address = Address;
         this.phone = phone;
         this.email = email;
+        this.id = id;
     }
 
     public String getAddress() {
@@ -67,7 +69,7 @@ public class Customer {
             return false;
         }
         Customer customer = (Customer) o;
-        return this.name == customer.name;
+        return this.Object_id == customer.Object_id;
     }
 
 

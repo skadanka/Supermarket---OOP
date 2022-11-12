@@ -1,27 +1,35 @@
 import java.util.Date;
+import java.util.*;
 
 
 public class Account {
    private static int numOfAccounts = 0; 
+    private final String Object_id;
 
-   private final String name;
+   private final String id;
    private String billing_address;
    private boolean is_closed;
    private Date open;
    private Date closed;
    private int balance;
 
-    public Account() {
-        this.name = String.valueOf(numOfAccounts++);
-    }
+   // Links
+   private List<Order> orders;
+   private ShoppingCart shoppingCart;
+   private List<Payment> payments; // ** the orderes are not related directly to the relvant payment **
 
-    public Account(String billing_address, boolean is_closed, Date open, Date closed, int balance) {
-        this.name = String.valueOf(numOfAccounts++);
+
+    public Account(String billing_address, boolean is_closed, Date closed, String id, int balance) {
+        this.Object_id = 'A' + String.valueOf(numOfAccounts++);
         this.billing_address = billing_address;
-        this.is_closed = is_closed;
-        this.open = open;
-        this.closed = closed;
+        this.is_closed = false;
+        this.open = new Date();
+        this.closed = null;
         this.balance = balance;
+        this.id = id;
+        this.orders = new ArrayList<>();
+        this.payments = new ArrayList<>();
+        this.shoppingCart = new ShoppingCart();
     }
 
     public String getBilling_address() {
@@ -101,7 +109,7 @@ public class Account {
             return false;
         }
         Account account = (Account) o;
-        return this.name == account.name;
+        return this.Object_id == account.Object_id;
     }
 
 

@@ -4,9 +4,6 @@ public class ImmediatePayment extends Payment {
     private boolean phoneConfirmation;
     
 
-    public ImmediatePayment() {
-    }
-
     public ImmediatePayment(boolean phoneConfirmation, String id, Date paid, float total, String Details) {
         super(id, paid, total, Details);
         this.phoneConfirmation = phoneConfirmation;

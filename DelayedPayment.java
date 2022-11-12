@@ -3,8 +3,6 @@ import java.util.Date ;
 public class DelayedPayment extends Payment {
     private Date paymentDate;
 
-    public DelayedPayment() {
-    }
 
     public DelayedPayment(Date paymentDate, boolean phoneConfirmation, String id, Date paid, float total, String Details) {
         super(id, paid, total, Details);

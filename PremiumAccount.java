@@ -3,25 +3,22 @@ import java.util.*;
 
 public class PremiumAccount extends Account{
     
-    private List<Prodcut> products;
+    private Set<Product> products;
 
-    public PremiumAccount() {
+    public PremiumAccount(List<Product> products, String billing_address, boolean is_closed, Date open, Date closed, int balance) {
+        super(billing_address, is_closed, closed, billing_address, balance);
+        this.products = new HashSet<>();
     }
 
-    public PremiumAccount(List<Prodcut> products, String billing_address, boolean is_closed, Date open, Date closed, int balance) {
-        super(billing_address, is_closed, open, closed, balance);
-        this.products = products;
-    }
-
-    public List<Prodcut> getProducts() {
+    public Set<Product> getProducts() {
         return this.products;
     }
 
-    public void setProducts(List<Prodcut> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 
-    public PremiumAccount products(List<Prodcut> products) {
+    public PremiumAccount products(Set<Product> products) {
         setProducts(products);
         return this;
     }

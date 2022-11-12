@@ -1,25 +1,24 @@
 public class LineItem {
     private static int numOfLineItems = 0;
+    private final String ObjectID;
 
-    private final String id;
 
     private int quantity;
     private int price;
 
     // Link Ideas
-    private String shoppingCart_id = null;
-    private String order_id = null;
-    private String prodcut_id = null;
+    private ShoppingCart shoppingCart;
+    private Order order;
+    private Product product;
 
 
-    public LineItem() {
-        this.id = String.valueOf(numOfLineItems++);
-    }
-
-    public LineItem(int quantity, int price) {
-        this.id = String.valueOf(numOfLineItems++);
+    public LineItem(int quantity, int price, ShoppingCart shoppingCart, Order order, Product product) {
+        this.ObjectID = "li" + String.valueOf(numOfLineItems++);
         this.quantity = quantity;
         this.price = price;
+        this.shoppingCart = shoppingCart;
+        this.order = order;
+        this.product = product;
     }
 
     public int getQuantity() {
@@ -54,15 +53,11 @@ public class LineItem {
             return true;
         if (!(o instanceof LineItem)) {
             return false;
-        }
+        
         LineItem lineItem = (LineItem) o;
-        return this.id == lineItem.id; 
+        return this.ObjectID == lineItem.ObjectID; 
+        }
     }
-
-    // @Override
-    // public int hashCode() {
-    //     return Objects.hash(quantity, price);
-    // }
 
     @Override
     public String toString() {

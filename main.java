@@ -1,7 +1,8 @@
 
-class Commerce{
+class Main{
 
     public static void main(String[] args){
+        
     }
 
     public boolean AddUser(String Login_id){
@@ -9,7 +10,6 @@ class Commerce{
         // Prompt user to input password
         // Prompt user to Choose Premium user (y(es)?/n(o)?) (Ignore Case)
         // Decide what to return maybe User Status enum {SuccessToCreated, Exist, FailedToCreate}
-
         return false;
     }
 

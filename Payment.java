@@ -2,6 +2,7 @@ import java.util.Date;
 
 public abstract class Payment {
    private static int numOfPayments = 0; 
+   private final String objectID;
    
    private final String id;
 
@@ -9,11 +10,12 @@ public abstract class Payment {
    private float total;
    private String Details;
 
-    public Payment() {
-        this.id = String.valueOf(numOfPayments++);
-    }
+    // Links
+    // Payment payment;
+    // Account account;
 
     public Payment(String id, Date paid, float total, String Details) {
+        this.objectID = 'P' + String.valueOf(numOfPayments);
         this.id = String.valueOf(numOfPayments++);
         this.paid = paid;
         this.total = total;

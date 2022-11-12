@@ -21,3 +21,4 @@ More Disscusion about the Classes relashionship and fields.
 - a1 = createAccount(String login_id="Dani", String password="Dani123") products: []
 - a2 = createAccount(String login_id="Dana", String password="Dana123") : products : ["Bamba"]
 
+# Thoughts 
