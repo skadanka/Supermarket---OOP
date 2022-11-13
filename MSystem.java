@@ -278,4 +278,10 @@ public class MSystem {
     {
         return User.getRegisteredUsers();
     }
+
+    public HashMap<String, Supplier> getAllSuppliers()
+    {
+        return Supplier.getRegisteredSuppiers();
+    }
+
 }
