@@ -15,7 +15,7 @@ public abstract class Payment {
     // Account account;
 
     public Payment(String id, Date paid, float total, String Details) {
-        this.objectID = 'P' + String.valueOf(numOfPayments);
+        this.objectID = "PA" + String.valueOf(numOfPayments);
         this.id = String.valueOf(numOfPayments++);
         this.paid = paid;
         this.total = total;

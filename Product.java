@@ -14,7 +14,7 @@ public class Product {
    private Set<Product> lineItems;
 
     public Product(String id, String name, Supplier supplier, Account owendByAccount) {
-            this.objectId = 'P'  + String.valueOf(numOfProducts++);
+            this.objectId = "PR"  + String.valueOf(numOfProducts++);
             this.id = id;
             this.name = name;
             this.supplier = supplier;
