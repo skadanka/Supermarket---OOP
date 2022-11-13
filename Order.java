@@ -20,7 +20,7 @@ public class Order {
 
 
     public Order(String name, Date ordered, Date shipped, String Address, OrderStatus status, float total) {
-        this.objectID = 'O' + String.valueOf(numOfOrders++);
+        this.objectID = "OR" + String.valueOf(numOfOrders++);
         this.name = name;
         this.ordered = new Date();
         this.shipped = null;
