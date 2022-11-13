@@ -14,7 +14,7 @@ public class Supplier {
 
 
     public Supplier(String id, String name) {
-        this.object_id = "S" + String.valueOf(numOfSuppliers++);
+        this.object_id = "SU" + String.valueOf(numOfSuppliers++);
         this.id = id;
         this.name = name;
         this.products = new HashSet<>();

@@ -5,8 +5,8 @@ public class PremiumAccount extends Account{
     
     private Set<Product> products;
 
-    public PremiumAccount(List<Product> products, String billing_address, boolean is_closed, Date open, Date closed, int balance) {
-        super(billing_address, is_closed, closed, billing_address, balance);
+    public PremiumAccount(String id, String billingAddress){
+        super(id, billingAddress);
         this.products = new HashSet<>();
     }
 
@@ -25,9 +25,30 @@ public class PremiumAccount extends Account{
 
     @Override
     public String toString() {
-        return "{" +
-            " products='" + getProducts() + "'" +
-            "}";
+        String part1 = "Premium Account: " + this.getObjectID() +
+                "\nID: " + this.getID()+
+                "\nBilling Address: " + this.getBilling_address()+
+                "\nIs Closed: " + this.getClosed()+
+                "\nOpen: " + this.getOpen().toString()+
+                "\nClosed: " + this.getClosed().toString()+
+                "\nBalance: " + this.getBalance()+
+
+                "\nConnected Items: " +
+                "\n" + this.getShoppingCart().getObjectID();
+
+        StringBuilder orders = new StringBuilder();
+        for (Order o:
+                this.getOrders()) {
+            orders.append("\n" + o.getObjectID());
+        }
+        StringBuilder payments = new StringBuilder();
+        for (Payment p:
+                this.getPayments()) {
+            payments.append("\n" + p.getObjectID());
+        }
+
+        return part1 + orders + payments;
     }
+
 
 }

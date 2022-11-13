@@ -17,4 +17,9 @@ public class ShoppingCart {
         this.created = new Date();
         this.items = new HashSet<>();
     }
+
+    public String getObjectID()
+    {
+        return "Shopping Cart: " + this.object_id;
+    }
 }
