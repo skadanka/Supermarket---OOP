@@ -14,9 +14,9 @@ public class Account {
    private int balance;
 
    // Links
-   private List<Order> orders;
+   private Map<String, Order> orders;
    private ShoppingCart shoppingCart;
-   private List<Payment> payments; // ** the orderes are not related directly to the relvant payment **
+   private Map<String, Payment> payments; // ** the orderes are not related directly to the relvant payment **
 
 
     public Account(String billing_address, boolean is_closed, Date closed, String id, int balance) {
@@ -27,10 +27,35 @@ public class Account {
         this.closed = null;
         this.balance = balance;
         this.id = id;
-        this.orders = new ArrayList<>();
-        this.payments = new ArrayList<>();
+        this.orders = new HashMap<>();
+        this.payments = new HashMap<>();
         this.shoppingCart = new ShoppingCart();
     }
+
+    public boolean OrderExist(String OrderID){
+        return orders.containsKey(OrderID);
+    }
+    public void AddProduct(String orderID, Product product, int quantity, int price){
+        if(orders.containsKey(orderID)){
+            Order order = orders.get(orderID);
+            if(order.getStatus() == OrderStatus.New || order.getStatus() == OrderStatus.Hold){
+                LineItem lineItem = new LineItem(quantity, price , shoppingCart, order, product);
+                shoppingCart.addLineItem(lineItem);
+                order.addLineItem(lineItem);
+                order.setStatus(OrderStatus.Hold);
+            }
+        }
+    }
+
+
+
+    public String addOrder(String address){
+        Order order = new Order(address);
+        String orderID = order.getID();
+        orders.put(orderID, order);
+        return orderID;
+    }
+
 
     public String getBilling_address() {
         return this.billing_address;

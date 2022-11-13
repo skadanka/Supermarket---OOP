@@ -21,6 +21,10 @@ public class LineItem {
         this.product = product;
     }
 
+    public String getID(){
+        return this.ObjectID;
+    }
+    
     public int getQuantity() {
         return this.quantity;
     }
@@ -47,17 +51,17 @@ public class LineItem {
         return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof LineItem)) {
-            return false;
+    // @Override
+    // public boolean equals(Object o) {
+    //     if (o == this)
+    //         return true;
+    //     if (!(o instanceof LineItem)) {
+    //         return false;
         
-        LineItem lineItem = (LineItem) o;
-        return this.ObjectID == lineItem.ObjectID; 
-        }
-    }
+    //     LineItem lineItem = (LineItem) o;
+    //     return this.ObjectID == lineItem.ObjectID; 
+    //     }
+    // }
 
     @Override
     public String toString() {

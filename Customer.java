@@ -22,6 +22,9 @@ public class Customer {
         this.id = id;
     }
 
+    public Account getAccount(){
+        return this.account;
+    }
     public String getAddress() {
         return this.Address;
     }

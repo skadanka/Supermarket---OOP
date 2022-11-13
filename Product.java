@@ -22,7 +22,6 @@ public class Product {
             this.lineItems = new HashSet<>();
         }
 
-
     public Product(String id, String name, Supplier supplier) {
             this.objectId = 'P'  + String.valueOf(numOfProducts++);
             this.id = id;
@@ -31,4 +30,8 @@ public class Product {
             this.lineItems = new HashSet<>();
             this.owendByAccount = null;
         }
+
+    public String getName(){
+        return this.name;
+    }
 }

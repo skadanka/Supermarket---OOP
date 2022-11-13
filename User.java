@@ -15,4 +15,8 @@ public class User{
         this.shoppingCart = shoppingCart;
         this.customer = customer;
     }
+
+    public Account getAccount(){
+        return this.customer.getAccount();
+    }
 }
