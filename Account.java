@@ -105,7 +105,7 @@ public class Account {
     public void removeAccount()
     {
         Date date = new Date();
-        Account.registeredAccounts.remove(this.id)
+        Account.registeredAccounts.remove(this.id);
         this.setClosed(date);
         this.is_closed = true;
         this.shoppingCart.removeShoppingCart();

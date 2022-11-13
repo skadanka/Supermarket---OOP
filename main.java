@@ -1,89 +1,194 @@
+import java.util.Date;
+import java.util.Scanner;
 
-class Main{
 
-    public static void main(String[] args){
-        
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        Scanner input = new Scanner(System.in);
+        boolean done = false;
+        boolean user_connected = false;
+
+        MSystem mainsys = new MSystem();
+
+        int choice;
+        while(true) {
+            System.out.println("Hello, what would u like to do? please enter the number");
+            System.out.println("1. Add user");
+            System.out.println("2. Remove user");
+            System.out.println("3. Login user");
+            System.out.println("4. Logout user");
+            System.out.println("5. Create new order");
+            System.out.println("6. Add product to order");
+            System.out.println("7. Display order");
+            System.out.println("8. Link product");
+            System.out.println("9. Add product");
+            System.out.println("10. Delete product");
+            System.out.println("11. Show all objects");
+            System.out.println("12. Show object ID");
+            System.out.println("13. Exit");
+            choice = input.nextInt();
+
+            switch (choice) {
+                //Scanner scanner = new Scanner(System.in);
+                case 1:
+                    Scanner scanner = new Scanner(System.in);
+
+                    String login_id;
+                    String password;
+                    String id;
+                    String address;
+                    String phone;
+                    String email;
+                    String billingAddress;
+                    boolean premium;
+                    System.out.println("Please enter a Login id:");
+                    login_id = scanner.nextLine();
+
+                    System.out.println("Please enter a password:");
+                    password = scanner.nextLine();
+
+                    System.out.println("Premium account? yes/no:");
+                    String ISpremium = scanner.nextLine();
+                    if (ISpremium.equals("yes")){
+                        premium = true;
+                    }
+                    else if (ISpremium.equals("no")){
+                        premium = false;
+                    }
+                    else {
+                        System.out.println("Not a valid input!");
+                        System.out.println("U are not premium Account");
+                        premium = false;
+                    }
+                    System.out.println("Please enter ID:");
+                    id = scanner.nextLine();
+
+                    System.out.println("Please enter Address:");
+                    address = scanner.nextLine();
+
+                    System.out.println("Please enter billingAddress:");
+                    billingAddress = scanner.nextLine();
+
+                    System.out.println("Please enter a phone:");
+                    phone = scanner.nextLine();
+
+                    System.out.println("Please enter an email:");
+                    email = scanner.nextLine();
+
+                    try{
+                        mainsys.addUser(login_id,password,id,address,phone,email,billingAddress,premium);
+
+                        System.out.println("You have successfully registered");
+                    }
+                    catch (Exception e){
+                        System.out.println(e.getMessage());
+                        System.out.println("Registration Failed! Please try again.");
+                    }
+                    break;
+                case 2:
+                    Scanner scanner2 = new Scanner(System.in);
+                    System.out.println("Enter Login id");
+                    String Login_id = scanner2.nextLine();
+                    try {
+                        mainsys.removeUser(Login_id);
+                        System.out.println("User Removed successfully!");
+
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        System.out.println("User Removed Failed! Please try again.");
+                    }
+                    break;
+                case 3:
+                    Scanner scanner3 = new Scanner(System.in);
+                    System.out.println("Enter Login id");
+                    String Login_id3 = scanner3.nextLine();
+                    System.out.println("Enter password");
+                    String password3 = scanner3.nextLine();
+                    try {
+                        if(user_connected==true){
+                            System.out.println("Another user is logged in, please logout from the system");
+                        }
+                        else{
+                            mainsys.login(Login_id3, password3);
+                            user_connected = true;
+                            System.out.println("You're successfully logged in!");
+                        }
+
+
+                    }
+                    catch (Exception e){
+                        System.out.println(e.getMessage());
+                        System.out.println("Please try again.");
+                    }
+                    break;
+                case 4:
+                    Scanner scanner4 = new Scanner(System.in);
+                    System.out.println("Enter Login id");
+                    String Login_id4 = scanner4.nextLine();
+                    try {
+                        mainsys.logout(Login_id4);
+                        user_connected = false;
+                        System.out.println("You're successfully logged out!");
+                    }
+                    catch (Exception e){
+                        System.out.println(e.getMessage());
+                        System.out.println("You're still logged in! Please try again.");
+                    }
+
+                    break;
+
+//                case 5:
+//                    Scanner scanner5 = new Scanner(System.in);
+//
+//                    break;
+//                case 6:
+//                    try {
+//                        Scanner scanner6 = new Scanner(System.in);
+//
+//                    break;
+//
+//                case 7:
+//                    mainsys.DisplayOrder();
+//                    break;
+//
+//                case 8:
+//                    Scanner scanner8 = new Scanner(System.in);
+//
+//                    break;
+//
+//                case 9:
+//                    Scanner scanner9 = new Scanner(System.in);
+//                    break;
+//
+//                case 10:
+//                    Scanner scanner10 = new Scanner(System.in);
+//
+//                    break;
+
+                case 11:
+                    System.out.println("Current all objects:");
+                    mainsys.showAllObjects();
+                    break;
+
+                case 12:
+                    Scanner scanner12 = new Scanner(System.in);
+                    String objectId;
+                    objectId = scanner12.nextLine();
+                    try {
+                        mainsys.ShowObjectID(objectId);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 13:
+                    done = true;
+                    System.out.println("Goodbye!");
+                    break;
+                default :
+                    System.out.println("This is not a valid Menu Option! Please Select Another");
+                    break;
+            }
+        }
     }
-
-    public boolean AddUser(String Login_id){
-        // Check if User already exist in the system
-        // Prompt user to input password
-        // Prompt user to Choose Premium user (y(es)?/n(o)?) (Ignore Case)
-        // Decide what to return maybe User Status enum {SuccessToCreated, Exist, FailedToCreate}
-        return false;
-    }
-
-    public boolean RemoveUser(String Login_id){
-        // Check If user exist in the data base
-        // Check if current logged user is the deleted user???
-        // Remove From the Database
-        // Return SuccessToRemove, FailedToRemove
-        return false;
-    }
-
-    public boolean Login(String Login_id, String password){
-        // Check if already anthor user is connected if true Prompt 'A User already logged to the system, Try again later!'
-        // Check if login_id exist in the Users Database
-        // Verify password
-        // Update the Global system logged user
-        // Prompt to user 'Welcome Login_id you are logged!'
-        return false;
-    }
-
-    public boolean Logout(String login_id){
-        // check if current user is logged
-        // log out from system Prompt - 'Bye {login_id}, You are logged out'
-        return false;
-    }
-
-    public String CreateNewOrder(String address, String login_id, String product_name){
-        // Create Order
-        //      if login_id in the data base and Product_Name exists
-        //      else reject the order
-        // Return The created order_id
-        return "";
-    }
-
-    public void AddProductToOrder(String order_id, String login_id, String product_name){
-    // check if the login_id exist in the database? and use is prime
-    // check order_id exist in the database
-    // check product exist in the database?
-    // Create new Line_item? and add a field to orders to contain all the lineitems?
-    }
-
-    public void DisplayOrder(String login_id){
-        // Get all Sorted Orders
-        // Get the first Order where login_id == Order.User_id
-        // ** Order_id, Create, Shipped, Address, OrderStatus, Price **
-    }
-
-    public void LinkProduct(String product_name, int price, int quantity){
-        // Check if current logged user is Premium Account
-        // Check if product exist in the database
-        // Create new LineItem contain all the data about the product, price quantity
-        // Link The LineItem to current User
-    }
-
-    public void AddProduct(String product_name, String supplier_name){
-        // all users can add product with not link between them and the product
-        // check if product already exist in the database?
-        // check if supplier exist and link else create?
-        // Create product and link to supplier
-    }
-
-    public void DeleteProduct(String product_name){
-        // check product exist in the System
-        // Delete the product, and understand how to handle the links(lineItem, supplier) of product
-    }
-
-    public void ShowAllObjects(){
-        // Display all object with unique id of Objects
-    }
-
-    public void ShowObjectId(String id){
-        // check object exist in the system
-        // Understand how to display the object
-    }
-
-    
 }
