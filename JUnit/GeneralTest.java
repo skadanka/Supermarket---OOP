@@ -112,9 +112,42 @@ public class GeneralTest {
 
     }
 
+    @Test
     public void remove_products_orders()
     {
         // delte products from order and line items etc...
+
+        // test on doesnt exist product -> productTest
+        Exception exception = null;
+        try
+        {
+            system.removeProduct("Bamba");
+        }
+        catch (Exception ex)
+        {
+            exception = ex;
+        }
+        assertNull(exception, "product exist.");
+
+        // check the deletion from order no. 2
+
+        // check deletion from shushi premium account:
+        User userShushi = system.getAllUsers().get("shushi");
+        assertEquals(0, userShushi.getCustomer().getAccount().getProducts().size(), "No product to sell.");
+
+        User userDani = system.getAllUsers().get("dani");
+
+        // check deletion from order.
+        Order order = userDani.getCustomer().getAccount().getOrders().get("2");
+        assertEquals(0, order.getProsucts().size(), "No products in the order.");
+
+        // check shopping cart of dani
+
+        assertEquals(0, userDani.getCustomer().getAccount().getShoppingCart().getLineItems().size());
+
+
+
+
     }
 
 

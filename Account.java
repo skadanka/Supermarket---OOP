@@ -17,7 +17,8 @@ public class Account {
    private int balance;
    private static HashMap<String, Account> registeredAccounts = new HashMap<>();
    // Links
-   private List<Order> orders;
+   private HashMap<String, Order> orders;
+   //private List<Order> orders;
    private ShoppingCart shoppingCart;
    private List<Payment> payments; // ** the orders are not related directly to the relevant payment **
 
@@ -35,7 +36,8 @@ public class Account {
         this.closed = null;
         this.balance = 0;
         this.id = id;
-        this.orders = new ArrayList<>();
+        this.orders = new HashMap<>();
+        //this.orders = new ArrayList<>();
         this.payments = new ArrayList<>();
         this.shoppingCart = new ShoppingCart();
         registeredAccounts.put(id, this);
@@ -97,7 +99,7 @@ public class Account {
     /**
      * @return All orders connected to account.
      */
-    public List<Order> getOrders() {return this.orders;}
+    public HashMap<String, Order> getOrders() {return this.orders;}
 
     /**
      * Remove account from all links.
@@ -169,7 +171,7 @@ public class Account {
 
         StringBuilder orders = new StringBuilder();
         for (Order o:
-             this.getOrders()) {
+             this.getOrders().values()) {
             orders.append("\n" + o.getObjectID());
         }
         StringBuilder payments = new StringBuilder();
