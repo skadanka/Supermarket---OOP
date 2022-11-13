@@ -130,6 +130,7 @@ public class User{
     }
 
 
-
-
+    public UserState getState() {
+        return this.getState();
+    }
 }

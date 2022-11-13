@@ -1,18 +1,14 @@
-<<<<<<< HEAD
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 
 public class MSystem {
-    public static void main(String[] args) throws Exception {
-    }
-=======
+
 /**
  * <p>Class System<p>
  * This class responsible is manging the system.
  * */
-
-
-public class MSystem {
 
     private User currentLogged = null;
     // Key: String username, Value: User object, Support User.verity(password);
@@ -274,5 +270,12 @@ public class MSystem {
 
 
     }
+
+    /**
+     * @return All users existed on system.
+     */
+    public HashMap<String, User> getAllUsers()
+    {
+        return User.getRegisteredUsers();
+    }
 }
->>>>>>> origin/maor
