@@ -1,10 +1,14 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+
+public class MSystem {
+
 /**
  * <p>Class System<p>
  * This class responsible is manging the system.
  * */
-
-
-public class MSystem {
 
     private User currentLogged = null;
     // Key: String username, Value: User object, Support User.verity(password);
@@ -266,4 +270,18 @@ public class MSystem {
 
 
     }
+
+    /**
+     * @return All users existed on system.
+     */
+    public HashMap<String, User> getAllUsers()
+    {
+        return User.getRegisteredUsers();
+    }
+
+    public HashMap<String, Supplier> getAllSuppliers()
+    {
+        return Supplier.getRegisteredSuppiers();
+    }
+
 }
