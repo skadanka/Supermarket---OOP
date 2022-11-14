@@ -22,6 +22,9 @@ public class LineItem {
     }
 
 
+    public Order getOrder(){return order;}
+
+    public ShoppingCart getShoppingCart(){ return shoppingCart; }
 
     public int getQuantity() {
         return this.quantity;

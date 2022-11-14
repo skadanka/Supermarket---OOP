@@ -260,6 +260,33 @@ public class System {
         supp.addProducts(prod);
     }
 
+//    public void DeleteProduct(String productName){
+//        // check product exist in the System
+//        // Delete the product, and understand how to handle the links(lineItem, supplier) of product
+//        Product prod = Product.getAllProducts().get(productName);
+//        if(prod != null){
+//            for(Supplier supp : Supplier.getRegisteredSuppliers().values()){
+//                supp.deleteFromProducts(prod);
+//            }
+//            for (User u : User.getRegisteredUsers().values()){
+//                Account account = u.getCustomer().getAccount();
+//                ShoppingCart shoppingCart = u.getShoppingCart();
+//                for(Order o :account.getOrders()){
+//                    for (LineItem item : o.getItems()){
+//                        if(prod.getId().equals(item.getProduct().getId()) && prod.getName().equals(item.getProduct().getName()))
+//                            o.deleteFromItems(item);
+//                    }
+//                }
+//                for(LineItem li :shoppingCart.getItems()){
+//                    if(prod.getId().equals(li.getProduct().getId()) && prod.getName().equals(li.getProduct().getName()))
+//                        shoppingCart.deleteFromItems(li);
+//                    }
+//            }
+//            Product.getAllProducts().get(productName);
+//        }
+//    }
+
+
     public void DeleteProduct(String productName){
         // check product exist in the System
         // Delete the product, and understand how to handle the links(lineItem, supplier) of product
@@ -268,22 +295,12 @@ public class System {
             for(Supplier supp : Supplier.getRegisteredSuppliers().values()){
                 supp.deleteFromProducts(prod);
             }
-            for (User u : User.getRegisteredUsers().values()){
-                Account account = u.getCustomer().getAccount();
-                ShoppingCart shoppingCart = u.getShoppingCart();
-                for(Order o :account.getOrders()){
-                    for (LineItem item : o.getItems()){
-                        if(prod.getId().equals(item.getProduct().getId()) && prod.getName().equals(item.getProduct().getName()))
-                            o.deleteFromItems(item);
-                    }
-                }
-                for(LineItem li :shoppingCart.getItems()){
-                    if(prod.getId().equals(li.getProduct().getId()) && prod.getName().equals(li.getProduct().getName()))
-                        shoppingCart.deleteFromItems(li);
-                    }
+            for(LineItem li:prod.getLineItems()){
+                li.getOrder().deleteFromItems(li);
+                li.getShoppingCart().deleteFromItems(li);
             }
-            Product.getAllProducts().get(productName);
         }
+        Product.getAllProducts().get(productName);
     }
 }
 

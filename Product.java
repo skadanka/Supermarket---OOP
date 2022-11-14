@@ -14,7 +14,7 @@ public class Product {
    // Links
    private Supplier supplier;
    private Account owendByAccount; 
-   private Set<Product> lineItems;
+   private Set<LineItem> lineItems;
 
     public Product(String id, String name, Supplier supplier, Account owendByAccount) {
             this.objectId = "PR"  + String.valueOf(numOfProducts++);
@@ -76,7 +76,7 @@ public class Product {
     /**
      * @return ???.
      */
-    public Set<Product> getLineItems() { return lineItems; }
+    public Set<LineItem> getLineItems() { return lineItems; }
 
     /**
      * @return ???.
