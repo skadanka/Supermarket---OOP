@@ -14,22 +14,31 @@ public class Account {
    private int balance;
 
    // Links
-   private Map<String, Order> orders;
+   private HashMap<String, Order> orders;
+   //private List<Order> orders;
    private ShoppingCart shoppingCart;
-   private Map<String, Payment> payments; // ** the orderes are not related directly to the relvant payment **
+   private List<Payment> payments; // ** the orders are not related directly to the relevant payment **
 
 
-    public Account(String billing_address, boolean is_closed, Date closed, String id, int balance) {
-        this.Object_id = 'A' + String.valueOf(numOfAccounts++);
-        this.billing_address = billing_address;
+    /**
+     * Account constructor.
+     * @param id Persons ID -> used for initiate costumer and account.
+     * @param billingAddress Persons billing address -> used for initiate account.
+     */
+    public Account(String id, String billingAddress) {
+        this.objectID = "AC" + String.valueOf(numOfAccounts++);
+        this.billing_address = billingAddress;
         this.is_closed = false;
         this.open = new Date();
         this.closed = null;
-        this.balance = balance;
+        this.balance = 0;
         this.id = id;
         this.orders = new HashMap<>();
-        this.payments = new HashMap<>();
+        //this.orders = new ArrayList<>();
+        this.payments = new ArrayList<>();
         this.shoppingCart = new ShoppingCart();
+        registeredAccounts.put(id, this);
+
     }
 
     public boolean OrderExist(String OrderID){
@@ -57,73 +66,143 @@ public class Account {
     }
 
 
+    /**
+     * @return Person billing address.
+     */
     public String getBilling_address() {
         return this.billing_address;
     }
 
-    public void setBilling_address(String billing_address) {
-        this.billing_address = billing_address;
-    }
-
-    public boolean isIs_closed() {
-        return this.is_closed;
-    }
-
-    public boolean getIs_closed() {
-        return this.is_closed;
-    }
-
-    public void setIs_closed(boolean is_closed) {
-        this.is_closed = is_closed;
-    }
-
+    /**
+     * @return Opening date of the account.
+     */
     public Date getOpen() {
         return this.open;
     }
 
-    public void setOpen(Date open) {
-        this.open = open;
-    }
-
+    /**
+     * @return Closing date of the account.
+     */
     public Date getClosed() {
         return this.closed;
     }
 
+    /**
+     * @param closed Set closing date.
+     */
     public void setClosed(Date closed) {
         this.closed = closed;
     }
 
+    /**
+     * @return Get user balance.
+     */
     public int getBalance() {
         return this.balance;
     }
 
+    /**
+     * @param balance Set user balance.
+     */
     public void setBalance(int balance) {
         this.balance = balance;
     }
 
-    public Account billing_address(String billing_address) {
-        setBilling_address(billing_address);
-        return this;
+    /**
+     * @return Shopping cart related to account.
+     */
+    public  ShoppingCart getShoppingCart() {return this.shoppingCart; }
+
+    /**
+     * @return All payments connected to account.
+     */
+    public List<Payment> getPayments() {return this.payments;}
+
+    /**
+     * @return All orders connected to account.
+     */
+    public HashMap<String, Order> getOrders() {return this.orders;}
+
+    /**
+     * Remove account from all links.
+     */
+    public void removeAccount()
+    {
+        Date date = new Date();
+        Account.registeredAccounts.remove(this.id);
+        this.setClosed(date);
+        this.is_closed = true;
+        this.shoppingCart.removeShoppingCart();
+        this.shoppingCart = null;
+        for (Payment p:
+             this.getPayments()) {
+            p.removePayment();
+        }
+        this.payments = null;
+        for (Order o: this.getOrders())
+            o.removeOrder();
+        this.orders = null;
     }
 
-    public Account is_closed(boolean is_closed) {
-        setIs_closed(is_closed);
-        return this;
+    /**
+     * @return Class name + object Id.
+     */
+    public String getObjectID()
+    {
+        return "Account " + this.objectID;
     }
 
-    public Account open(Date open) {
-        setOpen(open);
-        return this;
+    /**
+     * @return Map of all registered account.
+     * Key = person ID.
+     * Value = Person Account.
+     */
+    public static HashMap<String, Account> getRegisteredAccounts()
+    {
+        return registeredAccounts;
     }
 
-    public Account closed(Date closed) {
-        setClosed(closed);
-        return this;
+    /**
+     * @return Person unique ID.
+     */
+    public String getID()
+    {
+        return this.id;
     }
 
-    public Account balance(int balance) {
-        setBalance(balance);
-        return this;
+    /**
+     * @return True if account closed.
+     */
+    public boolean getIsClosed()
+    {
+        return this.is_closed;
+    }
+
+    @Override
+    public String toString() {
+        String part1 = "Account: " + this.getObjectID() +
+                "\nID: " + this.getID()+
+                "\nBilling Address: " + this.getBilling_address()+
+                "\nIs Closed: " + this.getIsClosed()+
+                "\nOpen: " + this.getOpen().toString()+
+                "\nClosed: " + this.getClosed().toString()+
+                "\nBalance: " + this.getBalance()+
+
+                "\nConnected Items: " +
+                "\n" + this.getShoppingCart().getObjectID();
+
+        StringBuilder orders = new StringBuilder();
+        for (Order o:
+             this.getOrders().values()) {
+            orders.append("\n" + o.getObjectID());
+        }
+        StringBuilder payments = new StringBuilder();
+        for (Payment p:
+                this.getPayments()) {
+            payments.append("\n" + p.getObjectID());
+        }
+
+        return part1 + orders + payments;
     }
 
     @Override
@@ -138,14 +217,4 @@ public class Account {
     }
 
 
-    @Override
-    public String toString() {
-        return "{" +
-            " billing_address='" + getBilling_address() + "'" +
-            ", is_closed='" + isIs_closed() + "'" +
-            ", open='" + getOpen() + "'" +
-            ", closed='" + getClosed() + "'" +
-            ", balance='" + getBalance() + "'" +
-            "}";
-    }
 }

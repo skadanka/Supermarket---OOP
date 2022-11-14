@@ -6,6 +6,7 @@ public class Order {
     private static int numOfOrders = 0; // Incremental id for all orders created 
     private final String objectID;
 
+    private String name;
     private Date ordered;
     private Date shipped;
     private String Address;
@@ -14,12 +15,13 @@ public class Order {
 
     // Links
     private Map<String, LineItem> items;
-    private Map<String, Payment> payments; 
+    private Map<String, Payment> payments;
 
 
 
-    public Order(String Address) {
-        this.objectID = 'O' + String.valueOf(numOfOrders++);
+    public Order(String name, Date ordered, Date shipped, String Address, OrderStatus status, float total) {
+        this.objectID = "OR" + String.valueOf(numOfOrders++);
+        this.name = name;
         this.ordered = new Date();
         this.shipped = null;
         this.Address = Address;
@@ -37,7 +39,7 @@ public class Order {
         this.items.put(lineItem.getID(), lineItem);
     }
 
-    
+
 
 
     public Date getOrdered() {
@@ -127,6 +129,13 @@ public class Order {
             ", status='" + getStatus() + "'" +
             ", total='" + getTotal() + "'" +
             "}";
+    }
+
+
+    public Set<LineItem> getItems() { return items; }
+
+    public void deleteFromItems(LineItem li) {
+        items.remove(li);
     }
 
 }

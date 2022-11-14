@@ -26,4 +26,11 @@ public class ShoppingCart {
     {
         return "Shopping Cart: " + this.object_id;
     }
+
+    public Set<LineItem> getItems() { return items; }
+
+    public void deleteFromItems(LineItem li) {
+        if (items.contains(li))
+            items.remove(li);
+    }
 }

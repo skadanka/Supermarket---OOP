@@ -13,7 +13,7 @@ public class LineItem {
 
 
     public LineItem(int quantity, int price, ShoppingCart shoppingCart, Order order, Product product) {
-        this.ObjectID = "LI" + String.valueOf(numOfLineItems++);
+        this.ObjectID = "li" + String.valueOf(numOfLineItems++);
         this.quantity = quantity;
         this.price = price;
         this.shoppingCart = shoppingCart;
@@ -24,7 +24,7 @@ public class LineItem {
     public String getID(){
         return this.ObjectID;
     }
-    
+
     public int getQuantity() {
         return this.quantity;
     }
@@ -51,17 +51,17 @@ public class LineItem {
         return this;
     }
 
-    // @Override
-    // public boolean equals(Object o) {
-    //     if (o == this)
-    //         return true;
-    //     if (!(o instanceof LineItem)) {
-    //         return false;
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof LineItem)) {
+            return false;
         
-    //     LineItem lineItem = (LineItem) o;
-    //     return this.ObjectID == lineItem.ObjectID; 
-    //     }
-    // }
+        LineItem lineItem = (LineItem) o;
+        return this.ObjectID == lineItem.ObjectID; 
+        }
+    }
 
     @Override
     public String toString() {
@@ -69,5 +69,9 @@ public class LineItem {
             " quantity='" + getQuantity() + "'" +
             ", price='" + getPrice() + "'" +
             "}";
+    }
+
+    public Product getProduct() {
+        return this.product;
     }
 }
