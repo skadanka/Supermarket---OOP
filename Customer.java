@@ -106,15 +106,6 @@ public class Customer {
     }
 
     /**
-     * @return Account related to customer.
-     */
-    public Account getAccount()
-    {
-        return this.account;
-    }
-
-
-    /**
      * @return Map of all registered customers.
      * Key = person unique ID.
      * Value = related customer.

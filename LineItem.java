@@ -1,7 +1,9 @@
+import java.util.*;
+
 public class LineItem {
     private static int numOfLineItems = 0;
     private final String ObjectID;
-
+    private static HashMap<String, LineItem> allLineItems = new HashMap<>();
 
     private int quantity;
     private int price;
@@ -19,6 +21,23 @@ public class LineItem {
         this.shoppingCart = shoppingCart;
         this.order = order;
         this.product = product;
+        addToAllLineItems(this);
+    }
+
+    private void addToAllLineItems(LineItem lineItem){
+        allLineItems.put(lineItem.ObjectID, lineItem);
+    }
+
+    public static Collection<LineItem> getLineItems(){
+        return allLineItems.values();
+    } 
+
+    public Order getOrder(){
+        return order;
+    }
+
+    public ShoppingCart getShoppingCart(){
+        return shoppingCart;
     }
 
     public String getID(){
@@ -51,17 +70,17 @@ public class LineItem {
         return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof LineItem)) {
-            return false;
+    // @Override
+    // public boolean equals(Object o) {
+    //     if (o == this)
+    //         return true;
+    //     if (!(o instanceof LineItem)) {
+    //         return false;
         
-        LineItem lineItem = (LineItem) o;
-        return this.ObjectID == lineItem.ObjectID; 
-        }
-    }
+    //     LineItem lineItem = (LineItem) o;
+    //     return this.ObjectID == lineItem.ObjectID; 
+    //     }
+    // }
 
     @Override
     public String toString() {

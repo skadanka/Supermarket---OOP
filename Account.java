@@ -121,7 +121,9 @@ public class Account {
     /**
      * @return All orders connected to account.
      */
-    public HashMap<String, Order> getOrders() {return this.orders;}
+    public Collection<Order> getOrders() {
+        return this.orders.values();
+    }
 
     /**
      * Remove account from all links.

@@ -46,6 +46,9 @@ public class User{
         User.getRegisteredUsers().put(user.getLogin_id(),user);
     }
 
+    public static User getUser(String loginID){
+        return registeredUsers.get(loginID);
+    }
     /**
      * @return Username.
      */

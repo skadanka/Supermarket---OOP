@@ -14,11 +14,6 @@ public class MSystem {
     private User currentLogged = null;
     // Key: String username, Value: User object, Support User.verity(password);
     //private HashSet<Supplier> suppliers;
-
-    public MSystem() {
-
-    }
-
     /**
      * addUser - add new user to system.
      *
@@ -135,7 +130,7 @@ public class MSystem {
                 java.lang.System.out.println(o);
                 // print all line items
                 for (LineItem item :
-                        o.getLineItems) {
+                        o.getLineItems()) {
                     java.lang.System.out.println(item);
                 }
                 // print all payment connected to users.
@@ -146,7 +141,7 @@ public class MSystem {
             }
             // print all suppliers.
             for (Supplier supplier :
-                    this.suppliers) {
+                    Supplier.getRegisteredSuppliers()) {
                 java.lang.System.out.println(supplier);
                 // for each supplier print its products.
                 for (Product product : supplier.getProducts())
@@ -177,37 +172,37 @@ public class MSystem {
                     if (c.getObjectID().equals(objectID))
                         java.lang.System.out.println(c.toString());
                 }
-            case "LI":
+            case "LI": 
                 for (LineItem li :
-                        LineItem.getRegisteredItems().values()) {
-                    if (li.getObjectID().equals(objectID))
+                        LineItem.getLineItems()) {
+                    if (li.getID().equals(objectID))
                         java.lang.System.out.println(li.toString());
                 }
 
             case "OR":
                 for (Order o :
-                        Order.getAllOrders().values()) {
-                    if (o.getObjectID().equals(objectID))
+                        Order.getAllOrders()) {
+                    if (o.getID().equals(objectID))
                         java.lang.System.out.println(o.toString());
                 }
 
             case "PA":
                 for (Payment p :
-                        Payment.getAllPayment().values()) {
+                        Payment.getAllPayments()) {
                     if (p.getObjectID().equals(objectID))
                         java.lang.System.out.println(p.toString());
                 }
 
             case "PR":
                 for (Product p :
-                        Product.getAllProducts().values()) {
+                        Product.getAllProducts()) {
                     if (p.getObjectID().equals(objectID))
                         java.lang.System.out.println(p.toString());
                 }
 
             case "SU":
                 for (Supplier s :
-                        Supplier.getRegisteredSuppliers().values()) {
+                        Supplier.getRegisteredSuppliers()) {
                     if (s.getObjectID().equals(objectID))
                         java.lang.System.out.println(s.toString());
                 }
@@ -235,7 +230,7 @@ public class MSystem {
         if (currAccount instanceof PremiumAccount) {
             pa = (PremiumAccount) currAccount;
             // Check if product exist in the database
-            Product prod = Product.getAllProducts().get(productName);
+            Product prod = Product.getProduct(productName);
             if (prod != null) {
                 prod.setPrice(price);
                 prod.setQuantity(quantity);
@@ -245,36 +240,26 @@ public class MSystem {
     }
 
 
-    public void AddProduct(String productName, String supplierName, String productId, String supplierId) {
+    public void AddProduct(String productName, String supplierName, String productId) {
         // we need to ask in the menu for those details.
-        Supplier supp = Supplier.getRegisteredSuppliers().get(supplierName);
-        if (supp == null)
-            supp = new Supplier(supplierId, supplierName);
-        Product prod = new Product(productId, productName, supp);
-        supp.addProducts(prod);
+        Supplier supplier = Supplier.getSupplier(supplierName);
+        if (supplier == null)
+            supplier = new Supplier(supplierName);
+        Product prod = new Product(productId, productName, supplier);
+        supplier.addProducts(prod);
     }
 
     public void DeleteProduct(String productName) {
         // check product exist in the System
         // Delete the product, and understand how to handle the links(lineItem, supplier) of product
-        Product prod = Product.getAllProducts().get(productName);
-        if (prod != null) {
-            for (Supplier supp : Supplier.getRegisteredSuppliers().values()) {
-                supp.deleteFromProducts(prod);
-            }
-            for (LineItem li : prod.getLineItems()) {
-                li.getOrder().deleteFromItems(li);
-                li.getShoppingCart().deleteFromItems(li);
-            }
-            Product.getAllProducts().get(productName);
-        }
+        Product.deleteProduct(productName);
     }
 
     public String CreateNewOrder(String address){
-        Account account = current_logged.getAccount();
+        Account account = currentLogged.getAccount();
         String out = account.addOrder(address);
 
-        return "Order Created...\n Order Number: " + out;
+        return out;
     }
 
     public void AddProductToOrder(String order_id, String login_id, String product_name){
@@ -282,10 +267,10 @@ public class MSystem {
         // check order_id exist in the database
         // check product exist in the database?
         // Create new Line_item? and add a field to orders to contain all the lineitems?
-        Account buyer = current_logged.getAccount();
+        Account buyer = currentLogged.getAccount();
         if (buyer.OrderExist(order_id))
-            if (registred_user.containsKey(login_id)){
-                Account seller = registred_user.get(login_id).getAccount();
+            if (User.getUser(login_id) != null){
+                Account seller = User.getUser(login_id).getAccount();
                 if(seller instanceof PremiumAccount){
                     PremiumAccount preAcc = (PremiumAccount) seller;
                     if(preAcc.ownProduct(product_name)){
@@ -295,14 +280,14 @@ public class MSystem {
                         float discount = productInfo.getDiscount();
                         int minForDiscount = productInfo.getMinForDiscount();
                         Scanner sc = new Scanner(System.in);
-                        System.out.println("%s can supply %d amount of %s at Price: %d...\n  You get %s% for buying %d",
+                        System.out.format("%s can supply %d amount of %s at Price: %d...\n  You get %s% for buying %d",
                                 login_id, sellerQuantity, product_name, discount*100, minForDiscount);
                         boolean flag = true;
                         do{
                             System.out.println("Insert Quantity");
                             int quantity  = sc.nextInt();
                             if(quantity > sellerQuantity)
-                                System.out.print("Seller can supply only %d", sellerQuantity);
+                                System.out.format("Seller can supply only %d", sellerQuantity);
                             System.out.print("Want to change for available quantity? or Back to main menu (y\n)");
                             String ans = sc.nextLine();
                             if(ans.equals("y"))

@@ -14,7 +14,7 @@ public class Product {
    // Links
    private Supplier supplier;
    private Account owendByAccount; 
-   private Set<Product> lineItems;
+   private Map<String, LineItem> lineItems;
 
     public Product(String id, String name, Supplier supplier, Account owendByAccount) {
             this.objectId = "PR"  + String.valueOf(numOfProducts++);
@@ -22,34 +22,53 @@ public class Product {
             this.name = name;
             this.supplier = supplier;
             this.owendByAccount = owendByAccount;
-            this.lineItems = new HashSet<>();
-            addToAllProducts(this,name);
+            this.lineItems = new HashMap<>();
+            addToAllProducts(this);
         }
 
 
     public Product(String id, String name, Supplier supplier) {
-            this.objectId = 'P'  + String.valueOf(numOfProducts++);
+            this.objectId = "PR"  + String.valueOf(numOfProducts++);
             this.id = id;
             this.name = name;
             this.supplier = supplier;
-            this.lineItems = new HashSet<>();
+            this.lineItems = new HashMap<>();
             this.owendByAccount = null;
-            addToAllProducts(this,name);
+            addToAllProducts(this);
         }
 
     /**
      * @return Map of all the products.
      */
-    public static HashMap<String, Product> getAllProducts() {
-        return allProducts;
+    public static Collection<Product> getAllProducts() {
+        return allProducts.values();
     }
 
     /**
-     * ?????
+     * ITS COOl
      */
-    public static void addToAllProducts(Product p, String name) {
-        allProducts.put(name,p);
+    public static void addToAllProducts(Product p) {
+        allProducts.put(p.name ,p);
     }
+       
+    public static Product getProduct(String productName){
+        return allProducts.get(productName);
+    }
+
+
+
+    public static deleteProduct(String productName){
+            Product product = allProducts.get(productName);
+            if (product != null) {
+                this.supplier.deleteProduct(productName);
+                for (LineItem li : product.getLineItems()) {
+                    li.getOrder().deleteFromItems(li);
+                    li.getShoppingCart().deleteFromItems(li);
+                }
+                allProducts.remove(productName);
+            }
+    }
+
 
     /**
      * @return id of the product.
@@ -57,6 +76,8 @@ public class Product {
     public String getId() {
         return id;
     }
+
+
 
     /**
      * @return name of the product.
@@ -76,7 +97,7 @@ public class Product {
     /**
      * @return ???.
      */
-    public Set<Product> getLineItems() { return lineItems; }
+    public Collection<LineItem> getLineItems() { return lineItems.values(); }
 
     /**
      * @return ???.
@@ -90,8 +111,4 @@ public class Product {
         this.quantity = quantity;
     }
 
-
-    public String getName(){
-        return this.name;
-    }
 }

@@ -5,8 +5,8 @@ import java.util.*;
 public class Order {
     private static int numOfOrders = 0; // Incremental id for all orders created 
     private final String objectID;
+    private static Map<String, Order> allOrders = new HashMap<>();
 
-    private String name;
     private Date ordered;
     private Date shipped;
     private String Address;
@@ -17,11 +17,9 @@ public class Order {
     private Map<String, LineItem> items;
     private Map<String, Payment> payments;
 
-
-
-    public Order(String name, Date ordered, Date shipped, String Address, OrderStatus status, float total) {
+    
+    public Order(String Address) {
         this.objectID = "OR" + String.valueOf(numOfOrders++);
-        this.name = name;
         this.ordered = new Date();
         this.shipped = null;
         this.Address = Address;
@@ -29,6 +27,15 @@ public class Order {
         this.total = 0;
         this.items = new HashMap<>();
         this.payments = new HashMap<>();
+        addToAllOrders(this);
+    }
+
+    private void addToAllOrders(Order order){
+        allOrders.put(order.getID(), order);
+    }
+
+    public static Collection<Order> getAllOrders(){
+        return allOrders.values();
     }
 
     public String getID(){
@@ -132,7 +139,9 @@ public class Order {
     }
 
 
-    public Set<LineItem> getItems() { return items; }
+    public Collection<LineItem> getLineItems() { 
+        return items.values();
+    }
 
     public void deleteFromItems(LineItem li) {
         items.remove(li);
