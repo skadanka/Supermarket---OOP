@@ -6,7 +6,6 @@ public class Order {
     private static int numOfOrders = 0; // Incremental id for all orders created 
     private final String objectID;
 
-    private String name;
     private Date ordered;
     private Date shipped;
     private String Address;
@@ -14,22 +13,32 @@ public class Order {
     private float total;
 
     // Links
-    private Set<LineItem> items;
-    private Set<Payment> payments; 
+    private Map<String, LineItem> items;
+    private Map<String, Payment> payments; 
 
 
 
-    public Order(String name, Date ordered, Date shipped, String Address, OrderStatus status, float total) {
-        this.objectID = "OR" + String.valueOf(numOfOrders++);
-        this.name = name;
+    public Order(String Address) {
+        this.objectID = 'O' + String.valueOf(numOfOrders++);
         this.ordered = new Date();
         this.shipped = null;
         this.Address = Address;
         this.status = OrderStatus.New;
-        this.total = total;
-        this.items = new HashSet<>();
-        this.payments = new HashSet<>();
+        this.total = 0;
+        this.items = new HashMap<>();
+        this.payments = new HashMap<>();
     }
+
+    public String getID(){
+        return this.objectID;
+    }
+
+    public void addLineItem(LineItem lineItem){
+        this.items.put(lineItem.getID(), lineItem);
+    }
+
+    
+
 
     public Date getOrdered() {
         return this.ordered;

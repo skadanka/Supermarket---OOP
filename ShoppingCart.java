@@ -10,12 +10,16 @@ public class ShoppingCart {
 
     // Links
     // private User OwendByUser;
-    private Set<LineItem> items;
+    private Map<String, LineItem> items;
 
     public ShoppingCart() {
         this.object_id = "SC" + String.valueOf(numOfShoppingCarts++);
         this.created = new Date();
-        this.items = new HashSet<>();
+        this.items = new HashMap<>();
+    }
+
+    public void addLineItem(LineItem lineItem){
+        this.items.put(lineItem.getID() , lineItem);
     }
 
     public String getObjectID()
