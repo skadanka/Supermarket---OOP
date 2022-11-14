@@ -13,7 +13,7 @@ public class Product {
 
    // Links
    private Supplier supplier;
-   private Account owendByAccount; 
+   private Account owendByAccount;
    private Map<String, LineItem> lineItems;
 
     public Product(String id, String name, Supplier supplier, Account owendByAccount) {
@@ -56,17 +56,14 @@ public class Product {
     }
 
 
-
-    public static deleteProduct(String productName){
-            Product product = allProducts.get(productName);
-            if (product != null) {
-                this.supplier.deleteProduct(productName);
-                for (LineItem li : product.getLineItems()) {
-                    li.getOrder().deleteFromItems(li);
-                    li.getShoppingCart().deleteFromItems(li);
-                }
-                allProducts.remove(productName);
-            }
+    public void deleteProduct(){
+        for (LineItem li : this.getLineItems()) {
+            li.getOrder().deleteFromItems(li);
+            li.getShoppingCart().deleteFromItems(li);
+        }
+        allProducts.remove(this.name);
+        this.supplier.deleteFromProducts(this.name);
+        ((PremiumAccount)this.owendByAccount).deleteFromProducts(this.name);
     }
 
 

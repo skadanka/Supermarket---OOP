@@ -6,7 +6,7 @@ public class LineItem {
     private static HashMap<String, LineItem> allLineItems = new HashMap<>();
 
     private int quantity;
-    private int price;
+    private float price;
 
     // Link Ideas
     private ShoppingCart shoppingCart;
@@ -14,7 +14,7 @@ public class LineItem {
     private Product product;
 
 
-    public LineItem(int quantity, int price, ShoppingCart shoppingCart, Order order, Product product) {
+    public LineItem(int quantity, float price, ShoppingCart shoppingCart, Order order, Product product) {
         this.ObjectID = "li" + String.valueOf(numOfLineItems++);
         this.quantity = quantity;
         this.price = price;
@@ -52,7 +52,7 @@ public class LineItem {
         this.quantity = quantity;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return this.price;
     }
 
@@ -65,10 +65,6 @@ public class LineItem {
         return this;
     }
 
-    public LineItem price(int price) {
-        setPrice(price);
-        return this;
-    }
 
     // @Override
     // public boolean equals(Object o) {

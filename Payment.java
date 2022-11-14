@@ -23,6 +23,7 @@ public abstract class Payment {
         this.paid = paid;
         this.total = total;
         this.Details = Details;
+        allPayments.put(objectID,this);
     }
 
     public static Collection<Payment> getAllPayments(){
@@ -62,20 +63,7 @@ public abstract class Payment {
         this.Details = Details;
     }
 
-    public Payment paid(Date paid) {
-        setPaid(paid);
-        return this;
-    }
 
-    public Payment total(float total) {
-        setTotal(total);
-        return this;
-    }
-
-    public Payment Details(String Details) {
-        setDetails(Details);
-        return this;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -97,4 +85,5 @@ public abstract class Payment {
             ", Details='" + getDetails() + "'" +
             "}";
     }
+
 }

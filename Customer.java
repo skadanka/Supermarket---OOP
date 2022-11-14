@@ -7,10 +7,11 @@ import java.util.HashMap;
 public class Customer {
    private static int numOfCustomers = 0;
 
-    private final String Object_id;
+    private final String objectID;
     private String id;
+    private User user;
 
-    private String Address;
+    private String address;
     private String phone;
     private String email;
 
@@ -18,7 +19,7 @@ public class Customer {
     private static HashMap<String, Customer> registeredCostumers = new HashMap<>();
 
     public Customer() {
-       this.Object_id = String.valueOf(numOfCustomers++); 
+       this.objectID = String.valueOf(numOfCustomers++);
     }
 
     /**

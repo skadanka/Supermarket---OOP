@@ -1,3 +1,6 @@
+package JUnit;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -108,7 +111,7 @@ public class GeneralTest {
 
         User userShushi = system.getAllUsers().get("shushi");
         assertEquals(9, userShushi.getCustomer().getAccount().getProducts().get("Bamba"), "Left 9 bamba");
-        assertEquals(5, userShushi.getCustomer().getAccount().getBalance());
+        Assertions.assertEquals(5, userShushi.getCustomer().getAccount().getBalance());
 
     }
 

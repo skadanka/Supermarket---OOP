@@ -13,7 +13,12 @@ public class MSystem {
 
     private User currentLogged = null;
     // Key: String username, Value: User object, Support User.verity(password);
-    //private HashSet<Supplier> suppliers;
+    private static HashMap<String, Supplier> allSuppliers = new HashMap<>();
+
+    public static HashMap<String, Supplier> getAllSuppliers(){
+        return allSuppliers;
+    }
+
     /**
      * addUser - add new user to system.
      *
@@ -44,6 +49,7 @@ public class MSystem {
         } else
             throw new Exception("User already exist.");
     }
+
 
     /**
      * Remove user the system.
@@ -223,36 +229,35 @@ public class MSystem {
     }
 
 
-    public void LinkProduct(String productName, int price, int quantity) {
+    public void LinkProduct(String productName, float price, int quantity) throws Exception {
+        if(price <= 0 )
+            throw new Exception("Invalid price.");
+        if(quantity <= 0 )
+            throw new Exception("Invalid quantity.");
         // Check if current logged user is Premium Account
-        PremiumAccount pa = null;
         Account currAccount = currentLogged.getCustomer().getAccount();
-        if (currAccount instanceof PremiumAccount) {
-            pa = (PremiumAccount) currAccount;
+        if (currAccount instanceof PremiumAccount pa) {
             // Check if product exist in the database
             Product prod = Product.getProduct(productName);
-            if (prod != null) {
-                prod.setPrice(price);
-                prod.setQuantity(quantity);
-                pa.addProduct(prod);
-            }
+            if (prod != null)
+                pa.addProduct(prod,price,quantity);
         }
     }
 
 
-    public void AddProduct(String productName, String supplierName, String productId) {
+    public void AddProduct(String productName, String supplierName) {
         // we need to ask in the menu for those details.
-        Supplier supplier = Supplier.getSupplier(supplierName);
+        Supplier supplier = getAllSuppliers().get(supplierName);
         if (supplier == null)
             supplier = new Supplier(supplierName);
-        Product prod = new Product(productId, productName, supplier);
+        Product prod = new Product(productName, productName, supplier);
         supplier.addProducts(prod);
     }
 
     public void DeleteProduct(String productName) {
-        // check product exist in the System
-        // Delete the product, and understand how to handle the links(lineItem, supplier) of product
-        Product.deleteProduct(productName);
+        Product p = Product.getProduct(productName);
+        if (p != null)
+            p.deleteProduct();
     }
 
     public String CreateNewOrder(String address){
@@ -276,7 +281,7 @@ public class MSystem {
                     if(preAcc.ownProduct(product_name)){
                         ProductInfo productInfo = preAcc.getProduct(product_name);
                         int sellerQuantity = productInfo.getQuantity();
-                        int price = productInfo.getPrice();
+                        float price = productInfo.getPrice();
                         float discount = productInfo.getDiscount();
                         int minForDiscount = productInfo.getMinForDiscount();
                         Scanner sc = new Scanner(System.in);
@@ -297,10 +302,10 @@ public class MSystem {
 
                         }
                         while(flag);
-                        buyer.AddProduct(order_id, null, sellerQuantity, price);
+                        buyer.AddProduct(order_id, productInfo.getProduct(), sellerQuantity, price);
                     }
                     else{
-                        System.out.println("User doesn't own any products");
+                        System.out.println("User doesn't own any products.");
                     }
 
                 }
@@ -318,6 +323,17 @@ public class MSystem {
         // Get all Sorted Orders
         // Get the first Order where login_id == Order.User_id
         // ** Order_id, Create, Shipped, Address, OrderStatus, Price **
+    }
+
+    public void addSupplier(String id,String name) throws Exception {
+
+        Supplier supplier = allSuppliers.get(id);
+        if(supplier != null)
+            throw new Exception("Supplier already exist.");
+        else {
+            supplier = new Supplier(id,name);
+            allSuppliers.put(id,supplier);
+        }
     }
 
 }

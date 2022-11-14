@@ -1,12 +1,12 @@
 
 public class ProductInfo{
     Product product;
-    int price;
+    float price;
     int quantity;
     float discount;
     int minForDiscount;
 
-    public ProductInfo(Product product, int price, int quantity, float discount, int minForDiscount){
+    public ProductInfo(Product product, float price, int quantity, float discount, int minForDiscount){
         this.product = product;
         this.price = price;
         this.discount = discount;
@@ -14,11 +14,19 @@ public class ProductInfo{
         this.minForDiscount = minForDiscount;
     }
 
+    public ProductInfo(Product product, float price, int quantity){
+        this.product = product;
+        this.price = price;
+        this.discount = 0;
+        this.quantity = quantity;
+        this.minForDiscount = 0;
+    }
+
     public Product getProduct(){
         return this.product;
     }
 
-    public int getPrice(){
+    public float getPrice(){
         return this.price;
     }
 

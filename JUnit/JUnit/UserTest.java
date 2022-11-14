@@ -1,8 +1,12 @@
+package JUnit;
+
 import jdk.jshell.spi.ExecutionControl;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class UserTest {
@@ -35,7 +39,7 @@ public class UserTest {
 
         // status check
         User u1 = system.getAllUsers().get("dani");
-        assertEquals(UserState.New, u1.getState(), "New User.");
+        Assertions.assertEquals(UserState.New, u1.getState(), "New User.");
 
         /*
             Check if 2 users with the same username can exist.
@@ -89,20 +93,20 @@ public class UserTest {
          */
 
         Customer c1 = u1.getCustomer();
-        assertNotNull(c1, "Check costumer created in the user.");
-        assertEquals("111111111", c1.getID(), "Check costumer ID.");
-        assertEquals("BeerSheba", c1.getAddress(), "Check costumer address.");
-        assertEquals("0523456789", c1.getPhone(), "Check costumer phone.");
-        assertEquals("dani9@walla.com", c1.getEmail(), "Check costumer Email.");
+        Assertions.assertNotNull(c1, "Check costumer created in the user.");
+        Assertions.assertEquals("111111111", c1.getID(), "Check costumer ID.");
+        Assertions.assertEquals("BeerSheba", c1.getAddress(), "Check costumer address.");
+        Assertions.assertEquals("0523456789", c1.getPhone(), "Check costumer phone.");
+        Assertions.assertEquals("dani9@walla.com", c1.getEmail(), "Check costumer Email.");
 
         Account a1 = c1.getAccount();
-        assertNotNull(a1, "Check account created in the costumer");
-        assertEquals("111111111", a1.getID(), "Check equality between costumer and account id.");
+        Assertions.assertNotNull(a1, "Check account created in the costumer");
+        Assertions.assertEquals("111111111", a1.getID(), "Check equality between costumer and account id.");
         ShoppingCart sc1 = a1.getShoppingCart();
         Date today = new Date();
         assertTrue(today.compareTo(sc1.getCreated()), "Check date creation of shopping cart. -> Created with account a1.");
         User daniUser = sc1.getUser();
-        assertEquals(u1, daniUser, "The same user (on memory).");
+        Assertions.assertEquals(u1, daniUser, "The same user (on memory).");
     }
 
     @Test

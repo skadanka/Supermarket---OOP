@@ -1,3 +1,6 @@
+package JUnit;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -6,8 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class ProductTest {
 
     MSystem system = new MSystem();
-    public void init()
-    {
+    public void init() throws Exception {
         system.addSupplier("1", "Osem");
         system.addSupplier("2", "Elite");
     }
@@ -43,7 +45,7 @@ public class ProductTest {
         }
         assertNull(exception, "Addition should be succeed.");
         Supplier s1 = system.getAllSuppliers().get("Osem");
-        assertEquals(4, s1.getProducts().size(), "Supplier Osem has 4 products.");
+        Assertions.assertEquals(4, s1.getProducts().size(), "Supplier Osem has 4 products.");
 
     }
 
@@ -74,7 +76,7 @@ public class ProductTest {
         Supplier s1 = system.getAllSuppliers().get("Osem");
 
         assertNull(exception, "Remove should be succeed.");
-        assertEquals(1, s1.getProducts().size(), "Supplier Osem has 1 product.");
+        Assertions.assertEquals(1, s1.getProducts().size(), "Supplier Osem has 1 product.");
 
     }
 

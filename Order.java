@@ -89,30 +89,7 @@ public class Order {
         this.total = total;
     }
 
-    public Order ordered(Date ordered) {
-        setOrdered(ordered);
-        return this;
-    }
 
-    public Order shipped(Date shipped) {
-        setShipped(shipped);
-        return this;
-    }
-
-    public Order Address(String Address) {
-        setAddress(Address);
-        return this;
-    }
-
-    public Order status(OrderStatus status) {
-        setStatus(status);
-        return this;
-    }
-
-    public Order total(float total) {
-        setTotal(total);
-        return this;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -124,7 +101,6 @@ public class Order {
         Order order = (Order) o;
         return this.objectID == order.objectID;
     }
-
 
 
     @Override
@@ -147,4 +123,21 @@ public class Order {
         items.remove(li);
     }
 
+    public String getObjectID()
+    {
+        return "Order: " + this.objectID;
+    }
+
+    public void removeOrder() {
+        allOrders.remove(this.objectID);
+        Collection<LineItem> collection = LineItem.getLineItems();
+        for (LineItem item: this.items.values()){
+            collection.remove(item.getID());
+        }
+        this.items = null;
+        Collection<Payment> collectionPayment = Payment.getAllPayments();
+        for (Payment payment: this.payments.values()){
+            collectionPayment.remove(payment.getObjectID());
+        }
+    }
 }

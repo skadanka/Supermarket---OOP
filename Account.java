@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Account {
    private static int numOfAccounts = 0; 
-    private final String Object_id;
+   private final String objectID;
 
    private final String id;
    private String billing_address;
@@ -12,8 +12,9 @@ public class Account {
    private Date open;
    private Date closed;
    private int balance;
+   private static HashMap<String, Account> registeredAccounts = new HashMap<>();
 
-   // Links
+    // Links
    private HashMap<String, Order> orders;
    //private List<Order> orders;
    private ShoppingCart shoppingCart;
@@ -44,7 +45,7 @@ public class Account {
     public boolean OrderExist(String OrderID){
         return orders.containsKey(OrderID);
     }
-    public void AddProduct(String orderID, Product product, int quantity, int price){
+    public void AddProduct(String orderID, Product product, int quantity, float price){
         if(orders.containsKey(orderID)){
             Order order = orders.get(orderID);
             if(order.getStatus() == OrderStatus.New || order.getStatus() == OrderStatus.Hold){
@@ -136,10 +137,7 @@ public class Account {
         this.is_closed = true;
         this.shoppingCart.removeShoppingCart();
         this.shoppingCart = null;
-        for (Payment p:
-             this.getPayments()) {
-            p.removePayment();
-        }
+
         this.payments = null;
         for (Order o: this.getOrders())
             o.removeOrder();
@@ -195,13 +193,13 @@ public class Account {
 
         StringBuilder orders = new StringBuilder();
         for (Order o:
-             this.getOrders().values()) {
-            orders.append("\n" + o.getObjectID());
+             this.getOrders()) {
+            orders.append("\n").append(o.getObjectID());
         }
         StringBuilder payments = new StringBuilder();
         for (Payment p:
                 this.getPayments()) {
-            payments.append("\n" + p.getObjectID());
+            payments.append("\n").append(p.getObjectID());
         }
 
         return part1 + orders + payments;
@@ -211,11 +209,10 @@ public class Account {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Account)) {
+        if (!(o instanceof Account account)) {
             return false;
         }
-        Account account = (Account) o;
-        return this.Object_id == account.Object_id;
+        return this.objectID.equals(account.getObjectID());
     }
 
 

@@ -7,22 +7,23 @@ public class Supplier {
     private static int numOfSuppliers = 0;
     private final String object_id;
 
-    private static HashMap<String, Supplier> allSuppliers = new HashMap<>();
+//    private static HashMap<String, Supplier> allSuppliers = new HashMap<>();
     private String id;
     private String name;
 
     // Links
     private Map<String, Product> products;
 
-    public static Supplier getSupplier(String supplierName){
-        return allSuppliers.get(supplierName);
-    }
+//    public static Supplier getSupplier(String supplierName){
+//        return allSuppliers.get(supplierName);
+//    }
 
-    public Supplier(String name) {
+    public Supplier(String id, String name) {
         this.object_id = "SU" + String.valueOf(numOfSuppliers++);
+        this.id = id;
         this.name = name;
         this.products = new HashMap<>();
-        addToAllSuppliers(this);
+//        addToAllSuppliers(this);
     }
 
     public String getObjectID(){
@@ -32,16 +33,20 @@ public class Supplier {
     /**
      * @return Map of all the suppliers.
      */
-    public static Collection<Supplier> getRegisteredSuppliers() { 
-        return allSuppliers.values(); 
-    }
+//    public static Collection<Supplier> getRegisteredSuppliers() {
+//        return allSuppliers.values();
+//    }
+
+//    public static Supplier getSpecificSupp(String id) {
+//        return allSuppliers.get(id);
+//    }
 
     /**
      * ?????
      */
-    public static void addToAllSuppliers(Supplier supplier) {
-        allSuppliers.put(supplier.name, supplier);
-    }
+//    public static void addToAllSuppliers(Supplier supplier) {
+//        allSuppliers.put(supplier.id, supplier);
+//    }
 
     public Collection<Product> getProducts(){
         return this.products.values();
@@ -60,6 +65,12 @@ public class Supplier {
     public void deleteFromProducts(String productName) {
             this.products.remove(productName);
     }
+
+
+    /**
+     * ?????
+     */
+
 
 
 }

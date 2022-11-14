@@ -1,3 +1,6 @@
+package JUnit;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,7 +53,7 @@ public class OrderTest {
         User daniUser = system.getAllUsers().get("dani");
         Order order1 = daniUser.getCustomer().getAccount().getOrders().get(0);
         Order order2 = daniUser.getCustomer().getAccount().getOrders().get(1);
-        assertNotEquals(order1, order2, "Different order number.");
+        Assertions.assertNotEquals(order1, order2, "Different order number.");
 
         /*
             Check the account ordered.
@@ -69,11 +72,11 @@ public class OrderTest {
 
         assertNotEquals(order2.getAccount(), order3.getAccount(), "Test check" +
                         "orders kept on the right account.");
-        assertEquals(2, daniUser.getCustomer().getAccount().getOrders().size(), "Dani made 2 orders.");
-        assertEquals(1, shushiUser.getCustomer().getAccount().getOrders().size(), "Shushi made 1 order.");
+        Assertions.assertEquals(2, daniUser.getCustomer().getAccount().getOrders().size(), "Dani made 2 orders.");
+        Assertions.assertEquals(1, shushiUser.getCustomer().getAccount().getOrders().size(), "Shushi made 1 order.");
 
         // check order status.
-        assertEquals("New", order3.getStatus().toString(), "order 3 is new order.");
+        Assertions.assertEquals("New", order3.getStatus().toString(), "order 3 is new order.");
 
         Exception ex = null;
         try
