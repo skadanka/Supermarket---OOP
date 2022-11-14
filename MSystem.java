@@ -334,6 +334,9 @@ public class MSystem {
         // Get the first Order where login_id == Order.User_id
         // ** Order_id, Create, Shipped, Address, OrderStatus, Price **
     }
+    public User get_currentLogged(){
+        return currentLogged;
+    }
 
 }
 
