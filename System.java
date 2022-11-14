@@ -236,10 +236,9 @@ public class System {
 
     public void LinkProduct(String productName, int price, int quantity){
         // Check if current logged user is Premium Account
-        PremiumAccount pa = null;
         Account currAccount = currentLogged.getCustomer().getAccount();
         if (currAccount instanceof PremiumAccount){
-            pa = (PremiumAccount) currAccount;
+            PremiumAccount pa = (PremiumAccount) currAccount;
             // Check if product exist in the database
             Product prod = Product.getAllProducts().get(productName);
             if(prod != null){
