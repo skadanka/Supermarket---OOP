@@ -11,8 +11,6 @@ public class MSystem {
  * */
 
 
-public class System {
-
     private User currentLogged = null;
     // Key: String username, Value: User object, Support User.verity(password);
     //private HashSet<Supplier> suppliers;
@@ -23,39 +21,38 @@ public class System {
 
     /**
      * addUser - add new user to system.
-     * @param login_id Username, should be unique.
-     * @param password User passwords.
-     * @param id Persons ID -> used for initiate costumer and account.
-     * @param address Person Address -> used for initiate costumer.
-     * @param phone Persons phone number -> used for initiate costumer.
-     * @param email Persons email -> used for initiate costumer.
+     *
+     * @param login_id       Username, should be unique.
+     * @param password       User passwords.
+     * @param id             Persons ID -> used for initiate costumer and account.
+     * @param address        Person Address -> used for initiate costumer.
+     * @param phone          Persons phone number -> used for initiate costumer.
+     * @param email          Persons email -> used for initiate costumer.
      * @param billingAddress Persons billing address -> used for initiate account.
-     * @param premium Is account is premium?
+     * @param premium        Is account is premium?
      * @throws Exception Throw expection if creation failed: user name already taken\
-     *          costumer already has user on the system (according id).
+     *                   costumer already has user on the system (according id).
      */
     public void addUser(String login_id, String password, String id,
                         String address, String phone, String email, String billingAddress, boolean premium) throws Exception {
 
         // Case1 - Username already taken.
-        if (User.getRegisteredUsers().get(login_id) == null)
-        {
+        if (User.getRegisteredUsers().get(login_id) == null) {
             // Case2 - Check if costumer with id exist.
 
             if (!Customer.getIDList(id)) {
                 Customer customer = new Customer(id, address, phone, email, billingAddress, premium);
                 User user = new User(login_id, password, id, customer);
                 customer.setUser(user);
-            }
-            else
+            } else
                 throw new Exception("Costumer already exist.");
-        }
-        else
+        } else
             throw new Exception("User already exist.");
     }
 
     /**
      * Remove user the system.
+     *
      * @param login_id Username to remove.
      * @throws Exception if: 1. User doesnt exist. 2. User is currently login.
      */
@@ -76,6 +73,7 @@ public class System {
 
     /**
      * User login to system.
+     *
      * @param login_id Username.
      * @param password User password.
      * @throws Exception if: 1. Username doesnt exist. 2. Another user logged to system. 3. Wrong password.
@@ -86,47 +84,40 @@ public class System {
         User user = User.getRegisteredUsers().get(login_id);
         if (user == null)
             throw new Exception("User doesnt exist.");
-        else
-        {
-            if (password.equals(user.getPassword()))
-            {
+        else {
+            if (password.equals(user.getPassword())) {
                 currentLogged = user;
                 user.setState(UserState.Online);
-            }
-            else
+            } else
                 throw new Exception("Wrong password.");
         }
     }
 
     /**
      * User logout from system
+     *
      * @param login_id Username.
      * @throws Exception if 1. User wants to logout is not logged in. 2. Username doesnt exist.
      */
     public void logout(String login_id) throws Exception {
         User user = User.getRegisteredUsers().get(login_id);
-        if (user != null)
-        {
-            if (user.getLogin_id().equals(currentLogged.getLogin_id()))
-            {
+        if (user != null) {
+            if (user.getLogin_id().equals(currentLogged.getLogin_id())) {
                 currentLogged = null;
                 user.setState(UserState.Active);
-            }
-            else
+            } else
                 throw new Exception(login_id + "is not logged in");
-        }
-        else
-            throw  new Exception("User doesnt exist.");
+        } else
+            throw new Exception("User doesnt exist.");
 
     }
 
     /**
      * Show all objects exist on system according their OBJECTID.
      */
-    public void showAllObjects()
-    {
+    public void showAllObjects() {
 
-        for (User user:
+        for (User user :
                 User.getRegisteredUsers().values()) {
             // print user
             java.lang.System.out.println(user.getObjectID());
@@ -139,38 +130,39 @@ public class System {
             // print user -> customer -> account -> shopping cart
             java.lang.System.out.println(account.getShoppingCart());
             // print all orders of this account.
-            for (Order o:
-                 account.getOrders()) {
+            for (Order o :
+                    account.getOrders()) {
                 java.lang.System.out.println(o);
                 // print all line items
-                for (LineItem item:
-                     o.getLineItems) {
+                for (LineItem item :
+                        o.getLineItems) {
                     java.lang.System.out.println(item);
                 }
                 // print all payment connected to users.
-                for (Payment p:
-                     account.getPayments()) {
+                for (Payment p :
+                        account.getPayments()) {
                     java.lang.System.out.println(p.getObjectID());
                 }
             }
             // print all suppliers.
-            for (Supplier supplier:
-                 this.suppliers) {
+            for (Supplier supplier :
+                    this.suppliers) {
                 java.lang.System.out.println(supplier);
                 // for each supplier print its products.
-                for (Product product: supplier.getProducts())
+                for (Product product : supplier.getProducts())
                     java.lang.System.out.println(product.getObjectID());
             }
-            }
+        }
     }
 
     /**
      * Print all details about specific object according its ObjectID.
+     *
      * @param objectID object unique ID.
      * @throws Exception if object id doesnt exist.
      */
     public void ShowObjectID(String objectID) throws Exception {
-        String objectClass = objectID.substring(0,2);
+        String objectClass = objectID.substring(0, 2);
 
         switch (objectClass) {
             case "AC":
@@ -236,15 +228,15 @@ public class System {
     }
 
 
-    public void LinkProduct(String productName, int price, int quantity){
+    public void LinkProduct(String productName, int price, int quantity) {
         // Check if current logged user is Premium Account
         PremiumAccount pa = null;
         Account currAccount = currentLogged.getCustomer().getAccount();
-        if (currAccount instanceof PremiumAccount){
+        if (currAccount instanceof PremiumAccount) {
             pa = (PremiumAccount) currAccount;
             // Check if product exist in the database
             Product prod = Product.getAllProducts().get(productName);
-            if(prod != null){
+            if (prod != null) {
                 prod.setPrice(price);
                 prod.setQuantity(quantity);
                 pa.addProduct(prod);
@@ -253,39 +245,30 @@ public class System {
     }
 
 
-    public void AddProduct(String productName, String supplierName, String productId, String supplierId){
+    public void AddProduct(String productName, String supplierName, String productId, String supplierId) {
         // we need to ask in the menu for those details.
         Supplier supp = Supplier.getRegisteredSuppliers().get(supplierName);
-        if(supp == null)
-            supp = new Supplier(supplierId,supplierName);
-        Product prod = new Product(productId,productName,supp);
+        if (supp == null)
+            supp = new Supplier(supplierId, supplierName);
+        Product prod = new Product(productId, productName, supp);
         supp.addProducts(prod);
     }
 
-    public void DeleteProduct(String productName){
+    public void DeleteProduct(String productName) {
         // check product exist in the System
         // Delete the product, and understand how to handle the links(lineItem, supplier) of product
         Product prod = Product.getAllProducts().get(productName);
-        if(prod != null){
-            for(Supplier supp : Supplier.getRegisteredSuppliers().values()){
+        if (prod != null) {
+            for (Supplier supp : Supplier.getRegisteredSuppliers().values()) {
                 supp.deleteFromProducts(prod);
             }
-            for (User u : User.getRegisteredUsers().values()){
-                Account account = u.getCustomer().getAccount();
-                ShoppingCart shoppingCart = u.getShoppingCart();
-                for(Order o :account.getOrders()){
-                    for (LineItem item : o.getItems()){
-                        if(prod.getId().equals(item.getProduct().getId()) && prod.getName().equals(item.getProduct().getName()))
-                            o.deleteFromItems(item);
-                    }
-                }
-                for(LineItem li :shoppingCart.getItems()){
-                    if(prod.getId().equals(li.getProduct().getId()) && prod.getName().equals(li.getProduct().getName()))
-                        shoppingCart.deleteFromItems(li);
-                    }
+            for (LineItem li : prod.getLineItems()) {
+                li.getOrder().deleteFromItems(li);
+                li.getShoppingCart().deleteFromItems(li);
             }
             Product.getAllProducts().get(productName);
         }
     }
 }
+
 
