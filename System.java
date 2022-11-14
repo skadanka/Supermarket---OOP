@@ -299,8 +299,8 @@ public class System {
                 li.getOrder().deleteFromItems(li);
                 li.getShoppingCart().deleteFromItems(li);
             }
+            Product.getAllProducts().get(productName);
         }
-        Product.getAllProducts().get(productName);
     }
 }
 
