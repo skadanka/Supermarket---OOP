@@ -10,6 +10,9 @@ public class MSystem {
  * This class responsible is manging the system.
  * */
 
+
+public class System {
+
     private User currentLogged = null;
     // Key: String username, Value: User object, Support User.verity(password);
     //private HashSet<Supplier> suppliers;
@@ -137,28 +140,28 @@ public class MSystem {
             java.lang.System.out.println(account.getShoppingCart());
             // print all orders of this account.
             for (Order o:
-                    account.getOrders()) {
+                 account.getOrders()) {
                 java.lang.System.out.println(o);
                 // print all line items
                 for (LineItem item:
-                        o.getLineItems) {
+                     o.getLineItems) {
                     java.lang.System.out.println(item);
                 }
                 // print all payment connected to users.
                 for (Payment p:
-                        account.getPayments()) {
+                     account.getPayments()) {
                     java.lang.System.out.println(p.getObjectID());
                 }
             }
             // print all suppliers.
             for (Supplier supplier:
-                    this.suppliers) {
+                 this.suppliers) {
                 java.lang.System.out.println(supplier);
                 // for each supplier print its products.
                 for (Product product: supplier.getProducts())
                     java.lang.System.out.println(product.getObjectID());
             }
-        }
+            }
     }
 
     /**
@@ -228,60 +231,61 @@ public class MSystem {
                 throw new Exception("ObjectID doesnt exist.");
 
         }
-        public String CreateNewOrder(String address, String login_id, String product_name){
-            // Create Order
-            //      if login_id in the data base and Product_Name exists
-            //      else reject the order
-            // Return The created order_id
-            return "";
-        }
 
-        public void AddProductToOrder(String order_id, String login_id, String product_name){
-            // check if the login_id exist in the database? and use is prime
-            // check order_id exist in the database
-            // check product exist in the database?
-            // Create new Line_item? and add a field to orders to contain all the lineitems?
-        }
 
-        public void DisplayOrder(String login_id){
-            // Get all Sorted Orders
-            // Get the first Order where login_id == Order.User_id
-            // ** Order_id, Create, Shipped, Address, OrderStatus, Price **
-        }
+    }
 
-        public void LinkProduct(String product_name, int price, int quantity){
-            // Check if current logged user is Premium Account
+
+    public void LinkProduct(String productName, int price, int quantity){
+        // Check if current logged user is Premium Account
+        PremiumAccount pa = null;
+        Account currAccount = currentLogged.getCustomer().getAccount();
+        if (currAccount instanceof PremiumAccount){
+            pa = (PremiumAccount) currAccount;
             // Check if product exist in the database
-            // Create new LineItem contain all the data about the product, price quantity
-            // Link The LineItem to current User
+            Product prod = Product.getAllProducts().get(productName);
+            if(prod != null){
+                prod.setPrice(price);
+                prod.setQuantity(quantity);
+                pa.addProduct(prod);
+            }
         }
-
-        public void AddProduct(String product_name, String supplier_name){
-            // all users can add product with not link between them and the product
-            // check if product already exist in the database?
-            // check if supplier exist and link else create?
-            // Create product and link to supplier
-        }
-
-        public void DeleteProduct(String product_name){
-            // check product exist in the System
-            // Delete the product, and understand how to handle the links(lineItem, supplier) of product
-        }
-
-
     }
 
-    /**
-     * @return All users existed on system.
-     */
-    public HashMap<String, User> getAllUsers()
-    {
-        return User.getRegisteredUsers();
+
+    public void AddProduct(String productName, String supplierName, String productId, String supplierId){
+        // we need to ask in the menu for those details.
+        Supplier supp = Supplier.getRegisteredSuppliers().get(supplierName);
+        if(supp == null)
+            supp = new Supplier(supplierId,supplierName);
+        Product prod = new Product(productId,productName,supp);
+        supp.addProducts(prod);
     }
 
-    public HashMap<String, Supplier> getAllSuppliers()
-    {
-        return Supplier.getRegisteredSuppiers();
+    public void DeleteProduct(String productName){
+        // check product exist in the System
+        // Delete the product, and understand how to handle the links(lineItem, supplier) of product
+        Product prod = Product.getAllProducts().get(productName);
+        if(prod != null){
+            for(Supplier supp : Supplier.getRegisteredSuppliers().values()){
+                supp.deleteFromProducts(prod);
+            }
+            for (User u : User.getRegisteredUsers().values()){
+                Account account = u.getCustomer().getAccount();
+                ShoppingCart shoppingCart = u.getShoppingCart();
+                for(Order o :account.getOrders()){
+                    for (LineItem item : o.getItems()){
+                        if(prod.getId().equals(item.getProduct().getId()) && prod.getName().equals(item.getProduct().getName()))
+                            o.deleteFromItems(item);
+                    }
+                }
+                for(LineItem li :shoppingCart.getItems()){
+                    if(prod.getId().equals(li.getProduct().getId()) && prod.getName().equals(li.getProduct().getName()))
+                        shoppingCart.deleteFromItems(li);
+                    }
+            }
+            Product.getAllProducts().get(productName);
+        }
     }
-
 }
+

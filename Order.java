@@ -5,7 +5,6 @@ import java.util.*;
 public class Order {
     private static int numOfOrders = 0; // Incremental id for all orders created 
     private final String objectID;
-
     private String name;
     private Date ordered;
     private Date shipped;
@@ -118,6 +117,13 @@ public class Order {
             ", status='" + getStatus() + "'" +
             ", total='" + getTotal() + "'" +
             "}";
+    }
+
+
+    public Set<LineItem> getItems() { return items; }
+
+    public void deleteFromItems(LineItem li) {
+        items.remove(li);
     }
 
 }
