@@ -1,21 +1,18 @@
 import java.util.Date;
 import java.util.*;
 
-/**
- * <p>Class Account<p>
- *  This class responsible for managing all account on system - link to orders, shopping cart.
- */
+
 public class Account {
    private static int numOfAccounts = 0; 
-    private final String objectID;
+    private final String Object_id;
 
    private final String id;
-   private final String billing_address;
+   private String billing_address;
    private boolean is_closed;
-   private final Date open;
+   private Date open;
    private Date closed;
    private int balance;
-   private static HashMap<String, Account> registeredAccounts = new HashMap<>();
+
    // Links
    private HashMap<String, Order> orders;
    //private List<Order> orders;
@@ -43,6 +40,31 @@ public class Account {
         registeredAccounts.put(id, this);
 
     }
+
+    public boolean OrderExist(String OrderID){
+        return orders.containsKey(OrderID);
+    }
+    public void AddProduct(String orderID, Product product, int quantity, int price){
+        if(orders.containsKey(orderID)){
+            Order order = orders.get(orderID);
+            if(order.getStatus() == OrderStatus.New || order.getStatus() == OrderStatus.Hold){
+                LineItem lineItem = new LineItem(quantity, price , shoppingCart, order, product);
+                shoppingCart.addLineItem(lineItem);
+                order.addLineItem(lineItem);
+                order.setStatus(OrderStatus.Hold);
+            }
+        }
+    }
+
+
+
+    public String addOrder(String address){
+        Order order = new Order(address);
+        String orderID = order.getID();
+        orders.put(orderID, order);
+        return orderID;
+    }
+
 
     /**
      * @return Person billing address.
@@ -183,7 +205,6 @@ public class Account {
         return part1 + orders + payments;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -192,7 +213,7 @@ public class Account {
             return false;
         }
         Account account = (Account) o;
-        return this.objectID.equals(account.objectID);
+        return this.Object_id == account.Object_id;
     }
 
 

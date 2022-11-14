@@ -5,16 +5,21 @@ import java.util.HashMap;
  *  This class responsible for managing all costumers on system.
  */
 public class Customer {
-    private static int numOfCustomers = 0;
-    private final String objectID;
-    private final String id;
-    private User user = null;
-    private String address;
+   private static int numOfCustomers = 0;
+
+    private final String Object_id;
+    private String id;
+
+    private String Address;
     private String phone;
     private String email;
+
     private Account account;
     private static HashMap<String, Customer> registeredCostumers = new HashMap<>();
 
+    public Customer() {
+       this.Object_id = String.valueOf(numOfCustomers++); 
+    }
 
     /**
      * Costummer constructor. Responsible to create an account.
@@ -51,6 +56,9 @@ public class Customer {
     /**
      * @return Person address.
      */
+    public Account getAccount(){
+        return this.account;
+    }
     public String getAddress() {
         return this.address;
     }
@@ -130,7 +138,6 @@ public class Customer {
     {
         return this.user;
     }
-
 
     @Override
     public boolean equals(Object o) {

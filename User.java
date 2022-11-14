@@ -133,4 +133,8 @@ public class User{
     public UserState getState() {
         return this.getState();
     }
+
+    public Account getAccount(){
+        return this.customer.getAccount();
+    }
 }

@@ -13,7 +13,7 @@ public class LineItem {
 
 
     public LineItem(int quantity, int price, ShoppingCart shoppingCart, Order order, Product product) {
-        this.ObjectID = "LI" + String.valueOf(numOfLineItems++);
+        this.ObjectID = "li" + String.valueOf(numOfLineItems++);
         this.quantity = quantity;
         this.price = price;
         this.shoppingCart = shoppingCart;
@@ -21,7 +21,9 @@ public class LineItem {
         this.product = product;
     }
 
-
+    public String getID(){
+        return this.ObjectID;
+    }
 
     public int getQuantity() {
         return this.quantity;
