@@ -232,5 +232,58 @@ public class System {
 
 
     }
+
+
+    public void LinkProduct(String productName, int price, int quantity){
+        // Check if current logged user is Premium Account
+        PremiumAccount pa = null;
+        Account currAccount = currentLogged.getCustomer().getAccount();
+        if (currAccount instanceof PremiumAccount){
+            pa = (PremiumAccount) currAccount;
+            // Check if product exist in the database
+            Product prod = Product.getAllProducts().get(productName);
+            if(prod != null){
+                prod.setPrice(price);
+                prod.setQuantity(quantity);
+                pa.addProduct(prod);
+            }
+        }
+    }
+
+
+    public void AddProduct(String productName, String supplierName, String productId, String supplierId){
+        // we need to ask in the menu for those details.
+        Supplier supp = Supplier.getRegisteredSuppliers().get(supplierName);
+        if(supp == null)
+            supp = new Supplier(supplierId,supplierName);
+        Product prod = new Product(productId,productName,supp);
+        supp.addProducts(prod);
+    }
+
+    public void DeleteProduct(String productName){
+        // check product exist in the System
+        // Delete the product, and understand how to handle the links(lineItem, supplier) of product
+        Product prod = Product.getAllProducts().get(productName);
+        if(prod != null){
+            for(Supplier supp : Supplier.getRegisteredSuppliers().values()){
+                supp.deleteFromProducts(prod);
+            }
+            for (User u : User.getRegisteredUsers().values()){
+                Account account = u.getCustomer().getAccount();
+                ShoppingCart shoppingCart = u.getShoppingCart();
+                for(Order o :account.getOrders()){
+                    for (LineItem item : o.getItems()){
+                        if(prod.getId().equals(item.getProduct().getId()) && prod.getName().equals(item.getProduct().getName()))
+                            o.deleteFromItems(item);
+                    }
+                }
+                for(LineItem li :shoppingCart.getItems()){
+                    if(prod.getId().equals(li.getProduct().getId()) && prod.getName().equals(li.getProduct().getName()))
+                        shoppingCart.deleteFromItems(li);
+                    }
+            }
+            Product.getAllProducts().get(productName);
+        }
+    }
 }
 

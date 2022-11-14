@@ -23,6 +23,8 @@ public class PremiumAccount extends Account{
         return this;
     }
 
+    public void addProduct(Product p){ this.products.add(p); }
+
     @Override
     public String toString() {
         String part1 = "Premium Account: " + this.getObjectID() +

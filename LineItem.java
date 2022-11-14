@@ -21,6 +21,8 @@ public class LineItem {
         this.product = product;
     }
 
+
+
     public int getQuantity() {
         return this.quantity;
     }
@@ -65,5 +67,9 @@ public class LineItem {
             " quantity='" + getQuantity() + "'" +
             ", price='" + getPrice() + "'" +
             "}";
+    }
+
+    public Product getProduct() {
+        return this.product;
     }
 }

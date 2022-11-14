@@ -57,24 +57,8 @@ class Main{
         // ** Order_id, Create, Shipped, Address, OrderStatus, Price **
     }
 
-    public void LinkProduct(String product_name, int price, int quantity){
-        // Check if current logged user is Premium Account
-        // Check if product exist in the database
-        // Create new LineItem contain all the data about the product, price quantity
-        // Link The LineItem to current User
-    }
 
-    public void AddProduct(String product_name, String supplier_name){
-        // all users can add product with not link between them and the product
-        // check if product already exist in the database?
-        // check if supplier exist and link else create?
-        // Create product and link to supplier
-    }
 
-    public void DeleteProduct(String product_name){
-        // check product exist in the System
-        // Delete the product, and understand how to handle the links(lineItem, supplier) of product
-    }
 
     public void ShowAllObjects(){
         // Display all object with unique id of Objects
