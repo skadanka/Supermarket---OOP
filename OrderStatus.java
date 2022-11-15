@@ -1,8 +1,8 @@
-public enum OrderStatus {
+public enum OrderStatus{
         New,
         Hold,
         Shipped,
         Delivered,
         Closed,
-   } 
+}
 

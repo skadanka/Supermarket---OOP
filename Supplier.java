@@ -1,49 +1,76 @@
 import java.util.*;
 
+import javax.xml.stream.events.StartElement;
+
 
 public class Supplier {
     private static int numOfSuppliers = 0;
     private final String object_id;
 
-    private static HashMap<String, Supplier> allSuppliers = new HashMap<>();
+//    private static HashMap<String, Supplier> allSuppliers = new HashMap<>();
     private String id;
     private String name;
 
     // Links
-    private Set<Product> products;
+    private Map<String, Product> products;
 
+//    public static Supplier getSupplier(String supplierName){
+//        return allSuppliers.get(supplierName);
+//    }
 
     public Supplier(String id, String name) {
         this.object_id = "SU" + String.valueOf(numOfSuppliers++);
         this.id = id;
         this.name = name;
-        this.products = new HashSet<>();
-        addToAllSuppliers(this,name);
+        this.products = new HashMap<>();
+//        addToAllSuppliers(this);
     }
 
+    public String getObjectID(){
+        return this.object_id;
+    }
+    
     /**
      * @return Map of all the suppliers.
      */
-    public static HashMap<String, Supplier> getRegisteredSuppliers() { return allSuppliers; }
+//    public static Collection<Supplier> getRegisteredSuppliers() {
+//        return allSuppliers.values();
+//    }
+
+//    public static Supplier getSpecificSupp(String id) {
+//        return allSuppliers.get(id);
+//    }
 
     /**
      * ?????
      */
-    public static void addToAllSuppliers(Supplier s, String name) {
-        allSuppliers.put(name,s);
+//    public static void addToAllSuppliers(Supplier supplier) {
+//        allSuppliers.put(supplier.id, supplier);
+//    }
+
+    public Collection<Product> getProducts(){
+        return this.products.values();
     }
 
     /**
      * ?????
      */
-    public void addProducts(Product p) { this.products.add(p); }
+    public void addProducts(Product product) { 
+        this.products.put(product.getName(), product); 
+    }
 
     /**
      * ?????
      */
-    public void deleteFromProducts(Product p) {
-        if(products.contains(p))
-            this.products.remove(p);
+    public void deleteFromProducts(String productName) {
+            this.products.remove(productName);
     }
+
+
+    /**
+     * ?????
+     */
+
+
 
 }

@@ -1,9 +1,12 @@
 import java.util.Date;
+import java.util.*;
 
 public abstract class Payment {
    private static int numOfPayments = 0; 
    private final String objectID;
-   
+   private static HashMap <String, Payment> allPayments = new HashMap<>();
+
+
    private final String id;
 
    private Date paid;
@@ -20,10 +23,19 @@ public abstract class Payment {
         this.paid = paid;
         this.total = total;
         this.Details = Details;
+        allPayments.put(objectID,this);
+    }
+
+    public static Collection<Payment> getAllPayments(){
+        return allPayments.values();
+    }
+
+    public String getObjectID(){
+        return objectID;
     }
 
     public String getId() {
-        return this.id;
+        return "Payment: " + this.id;
     }
 
 
@@ -51,20 +63,7 @@ public abstract class Payment {
         this.Details = Details;
     }
 
-    public Payment paid(Date paid) {
-        setPaid(paid);
-        return this;
-    }
 
-    public Payment total(float total) {
-        setTotal(total);
-        return this;
-    }
-
-    public Payment Details(String Details) {
-        setDetails(Details);
-        return this;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -86,4 +85,5 @@ public abstract class Payment {
             ", Details='" + getDetails() + "'" +
             "}";
     }
+
 }
