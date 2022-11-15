@@ -4,9 +4,9 @@ public class DelayedPayment extends Payment {
     private Date paymentDate;
 
 
-    public DelayedPayment(Date paymentDate, boolean phoneConfirmation, String id, Date paid, float total, String Details) {
-        super(id, paid, total, Details);
-        this.paymentDate = paymentDate;
+    public DelayedPayment(String id, String Details, Order order, Account account) {
+        super(id, Details, order, account);
+        paymentDate = null;
     }
 
     public Date getPaymentDate() {
@@ -22,12 +22,23 @@ public class DelayedPayment extends Payment {
         return this;
     }
 
-
-    @Override
-    public String toString() {
-        return "{" +
-            " paymentDate='" + getPaymentDate() + "'" +
-            "}";
+    public String showObject()
+    {
+        return "Delayed " + super.getObjectID();
     }
+
+    public String toString() {
+        return  "Delayed Payment: " + this.getObjectID() +
+                "\nID: " + this.getId()+
+                "\nPaid Date: " + this.getPaid().toString()+
+                "\nTotal: " + this.getTotal() +
+                "\nDetails: " + this.getDetails()+
+                "\nPayment Date: " + this.paymentDate.toString()+
+                "\nConnected Items: " +
+                "\nAccount: " + this.getAccount().getID() +
+                "\nOrder: " + this.getOrder().getObjectID();
+
+    }
+
     
 }

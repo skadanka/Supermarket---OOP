@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -136,39 +137,40 @@ public class MSystem {
         for (User user :
                 User.getRegisteredUsers().values()) {
             // print user
-            java.lang.System.out.println(user.getObjectID());
+            java.lang.System.out.println(user.showObject());
             // print user -> customer
             Customer customer = user.getCustomer();
-            java.lang.System.out.println(customer.getObjectID());
+            java.lang.System.out.println(customer.showObject());
             // print user -> customer -> account
 
             Account account = customer.getAccount();
-            java.lang.System.out.println(account.getObjectID());
+            java.lang.System.out.println(account.showObject());
             // print user -> customer -> account -> shopping cart
-            java.lang.System.out.println(account.getShoppingCart());
+            java.lang.System.out.println(account.getShoppingCart().showObject());
             // print all orders of this account.
             for (Order o :
                     account.getOrders()) {
-                java.lang.System.out.println(o);
+                java.lang.System.out.println(o.showObject());
                 // print all line items
                 for (LineItem item :
                         o.getLineItems()) {
-                    java.lang.System.out.println(item);
+                    java.lang.System.out.println(item.showObject());
                 }
                 // print all payment connected to users.
                 for (Payment p :
                         account.getPayments()) {
-                    java.lang.System.out.println(p.getObjectID());
+                    java.lang.System.out.println(p.showObject());
                 }
             }
-            // print all suppliers.
-            for (Supplier supplier :
-                    getAllSuppliers().values()) {
-                java.lang.System.out.println(supplier);
-                // for each supplier print its products.
-                for (Product product : supplier.getProducts())
-                    java.lang.System.out.println(product.getObjectID());
-            }
+        }
+        // print all suppliers.
+        for (Supplier supplier :
+                getAllSuppliers().values()) {
+            java.lang.System.out.println(supplier.showObject());
+            // for each supplier print its products.
+            for (Product product : supplier.getProducts())
+                java.lang.System.out.println(product.showObject());
+
         }
     }
 
@@ -180,61 +182,109 @@ public class MSystem {
      */
     public void ShowObjectID(String objectID) throws Exception {
         String objectClass = objectID.substring(0, 2);
-
+        boolean flag = false;
         switch (objectClass) {
             case "AC":
                 for (Account a :
                         Account.getRegisteredAccounts().values()) {
-                    if (a.getObjectID().equals(objectID))
+                    if (a.getObjectID().equals(objectID)) {
                         java.lang.System.out.println(a.toString());
+                        flag = true;
+                        break;
+                    }
                 }
+                if (!flag)
+                    throw new Exception("ObjectID doesnt exist.");
+                break;
+                //throw new Exception("ObjectID doesnt exist.");
+
             case "CU":
                 for (Customer c :
                         Customer.getRegisteredCostumers().values()) {
-                    if (c.getObjectID().equals(objectID))
+                    if (c.getObjectID().equals(objectID)){
                         java.lang.System.out.println(c.toString());
+                    flag = true;
+                    break;
                 }
+        }
+        if (!flag)
+            throw new Exception("ObjectID doesnt exist.");
+        break;
             case "LI": 
                 for (LineItem li :
                         LineItem.getLineItems()) {
-                    if (li.getID().equals(objectID))
+                    if (li.getID().equals(objectID)){
                         java.lang.System.out.println(li.toString());
+                    flag = true;
+                    break;
                 }
+        }
+        if (!flag)
+            throw new Exception("ObjectID doesnt exist.");
+        break;
 
             case "OR":
                 for (Order o :
                         Order.getAllOrders()) {
-                    if (o.getID().equals(objectID))
+                    if (o.getID().equals(objectID)){
                         java.lang.System.out.println(o.toString());
+                    flag = true;
+                    break;
                 }
-
+        }
+        if (!flag)
+            throw new Exception("ObjectID doesnt exist.");
+        break;
             case "PA":
                 for (Payment p :
                         Payment.getAllPayments()) {
-                    if (p.getObjectID().equals(objectID))
+                    if (p.getObjectID().equals(objectID)){
                         java.lang.System.out.println(p.toString());
+                    flag = true;
+                    break;
                 }
-
+        }
+        if (!flag)
+            throw new Exception("ObjectID doesnt exist.");
+        break;
             case "PR":
                 for (Product p :
                         Product.getAllProducts()) {
-                    if (p.getObjectID().equals(objectID))
+                    if (p.getObjectID().equals(objectID)){
                         java.lang.System.out.println(p.toString());
+                    flag = true;
+                    break;
                 }
-
+        }
+        if (!flag)
+            throw new Exception("ObjectID doesnt exist.");
+        break;
             case "SU":
                 for (Supplier s :
                         getAllSuppliers().values()) {
-                    if (s.getObjectID().equals(objectID))
-                        java.lang.System.out.println(s.toString());
+                    String id = s.getObjectID();
+                    if (id.equals(objectID)){
+                        java.lang.System.out.println(s.getObjectID());
+                    flag = true;
+                    break;
                 }
+        }
+        if (!flag)
+            throw new Exception("ObjectID doesnt exist.");
+        break;
 
             case "US":
                 for (User u :
                         User.getRegisteredUsers().values()) {
-                    if (u.getObjectID().equals(objectID))
+                    if (u.getObjectID().equals(objectID)){
                         java.lang.System.out.println(u.toString());
+                    flag = true;
+                    break;
                 }
+        }
+        if (!flag)
+            throw new Exception("ObjectID doesnt exist.");
+        break;
 
             default:
                 throw new Exception("ObjectID doesnt exist.");
@@ -243,8 +293,6 @@ public class MSystem {
 
 
     }
-
-
 
 
     public void LinkProduct(String productName, float price, int quantity) throws Exception {
@@ -289,6 +337,30 @@ public class MSystem {
 
         return out;
     }
+
+    public void payment(String type, String ID, String details, String orderID) throws Exception {
+        // delayed payment
+        Payment payment;
+        Order order = Order.getSpecificOrder(orderID);
+        if (type.equals("1"))
+        {
+             payment = new DelayedPayment(ID, details, order , currentLogged.getAccount());
+        }
+        else if (type.equals("2"))
+        {
+            payment = new ImmediatePayment(ID, details, order, currentLogged.getAccount());
+        }
+        else
+            throw new Exception("Invalid action.");
+
+        order.setPayments(payment);
+        currentLogged.getAccount().addPayment(payment);
+
+    }
+
+
+
+
 
     public void AddProductToOrder(String order_id, String login_id, String product_name){
         // check if the login_id exist in the database? and use is prime

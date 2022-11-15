@@ -23,6 +23,10 @@ public class LineItem {
         this.product = product;
         addToAllLineItems(this);
     }
+    public String showObject()
+    {
+        return "Line Item: " + this.ObjectID;
+    }
 
     private void addToAllLineItems(LineItem lineItem){
         allLineItems.put(lineItem.ObjectID, lineItem);
@@ -78,13 +82,17 @@ public class LineItem {
     //     }
     // }
 
-    @Override
     public String toString() {
-        return "{" +
-            " quantity='" + getQuantity() + "'" +
-            ", price='" + getPrice() + "'" +
-            "}";
+        return  "Line Item: " + this.getID() +
+                "\nQuantity: " + this.quantity+
+                "\nPrice: " + this.price+
+                "\nConnected Objects: " +
+                "\nShopping Cart: " + this.getShoppingCart().getObjectID() +
+                "\nOrder: " + this.getOrder().getObjectID() +
+                "\nProduct: " + this.getProduct().getObjectID();
+
     }
+
 
     public Product getProduct() {
         return this.product;

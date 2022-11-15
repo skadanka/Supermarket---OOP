@@ -16,9 +16,9 @@ public class Order {
     // Links
     private Map<String, LineItem> items;
     private Map<String, Payment> payments;
-
+    private Account account;
     
-    public Order(String Address) {
+    public Order(String Address, Account account) {
         this.objectID = "OR" + String.valueOf(numOfOrders++);
         this.ordered = new Date();
         this.shipped = null;
@@ -27,6 +27,7 @@ public class Order {
         this.total = 0;
         this.items = new HashMap<>();
         this.payments = new HashMap<>();
+        this.account = account;
         addToAllOrders(this);
     }
 
@@ -34,8 +35,14 @@ public class Order {
         allOrders.put(order.getID(), order);
     }
 
+
     public static Collection<Order> getAllOrders(){
         return allOrders.values();
+    }
+
+    public static Order getSpecificOrder(String orderID)
+    {
+        return allOrders.get(orderID);
     }
 
     public String getID(){
@@ -46,8 +53,15 @@ public class Order {
         this.items.put(lineItem.getID(), lineItem);
     }
 
+    public String showObject()
+    {
+        return "Order: " + this.getObjectID();
+    }
 
-
+    public void setPayments(Payment p)
+    {
+        this.payments.put(p.getObjectID(), p);
+    }
 
     public Date getOrdered() {
         return this.ordered;
@@ -90,7 +104,6 @@ public class Order {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -103,15 +116,27 @@ public class Order {
     }
 
 
-    @Override
     public String toString() {
-        return "{" +
-            " ordered='" + getOrdered() + "'" +
-            ", shipped='" + getShipped() + "'" +
-            ", Address='" + getAddress() + "'" +
-            ", status='" + getStatus() + "'" +
-            ", total='" + getTotal() + "'" +
-            "}";
+        String part1 =  "Order: " + this.getObjectID() +
+                "\nOderID: " + this.getObjectID()+
+                "\nOrdered: " + this.ordered.toString()+
+                "\nShipped: " + this.shipped.toString() +
+                "\nShip TO: " + this.getAddress()+
+                "\nStatus: " + this.getStatus().toString() +
+                "\nTotal: " + this.total +
+                "\nConnected Items: " +
+                "\nAccount: " + this.account.getID();
+        StringBuilder part2 = new StringBuilder();
+        for (LineItem li:
+                this.getLineItems()) {
+            part2.append("\n").append(li.getID());
+        }
+        for (Payment pay:
+                this.payments.values()) {
+            part2.append("\n").append(pay.getObjectID());
+        }
+
+        return part1 + part2;
     }
 
 

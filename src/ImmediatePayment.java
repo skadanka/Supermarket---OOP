@@ -4,9 +4,9 @@ public class ImmediatePayment extends Payment {
     private boolean phoneConfirmation;
     
 
-    public ImmediatePayment(boolean phoneConfirmation, String id, Date paid, float total, String Details) {
-        super(id, paid, total, Details);
-        this.phoneConfirmation = phoneConfirmation;
+    public ImmediatePayment(String id, String Details, Order order, Account account) {
+        super(id, Details, order, account);
+        this.phoneConfirmation = false;
     }
 
     public boolean isPhoneConfirmation() {
@@ -25,12 +25,22 @@ public class ImmediatePayment extends Payment {
         setPhoneConfirmation(phoneConfirmation);
         return this;
     }
+    public String showObject()
+    {
+        return "Immediate " + super.getObjectID();
+    }
 
 
-    @Override
     public String toString() {
-        return "{" +
-            " phoneConfirmation='" + isPhoneConfirmation() + "'" +
-            "}";
+        return  "Immediate Payment: " + this.getObjectID() +
+                "\nID: " + this.getId()+
+                "\nPaid Date: " + this.getPaid().toString()+
+                "\nTotal: " + this.getTotal() +
+                "\nDetails: " + this.getDetails()+
+                "\nPhone Confirmation: " + this.phoneConfirmation +
+                "\nConnected Items: " +
+                "\nAccount: " + this.getAccount().getID() +
+                "\nOrder: " + this.getOrder().getObjectID();
+
     }
 }

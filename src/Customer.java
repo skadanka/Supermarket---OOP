@@ -103,9 +103,13 @@ public class Customer {
      */
     public String getObjectID()
     {
-        return "Customer " + this.objectID;
+        return this.objectID;
     }
 
+    public String showObject()
+    {
+        return "Customer: " + this.objectID;
+    }
     /**
      * @return Map of all registered customers.
      * Key = person unique ID.

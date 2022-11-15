@@ -86,6 +86,14 @@ public class Product {
      */
     public String getObjectID() { return objectId; }
 
+
+    public String showObject()
+    {
+        return "Product: " + this.getObjectID();
+    }
+
+
+
     /**
      * @return ???.
      */
@@ -108,4 +116,26 @@ public class Product {
         this.quantity = quantity;
     }
 
+
+    public String toString() {
+        String part1 = "Product: " + this.getObjectID() +
+                "\nID: " + this.id+
+                "\nName: " + this.name+
+                "\nConnected Objects: " +
+                "\nSupplier: " + this.supplier;
+        StringBuilder part2 = new StringBuilder();
+
+        if (this.owendByAccount != null)
+            part2.append("\nPremium Account: " + this.owendByAccount.getID());
+        if (this.getLineItems().size() != 0)
+        {
+            for (LineItem li:
+                    this.getLineItems()) {
+                part2.append("\n" + li.getID());
+            }
+
+        }
+
+        return part1 + part2.toString();
+    }
 }
