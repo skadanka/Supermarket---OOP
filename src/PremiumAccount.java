@@ -10,6 +10,8 @@ public class PremiumAccount extends Account{
         this.products = new HashMap<>();
     }
 
+
+
 //    public boolean addProduct(Product product, int price, float discount, int quantity, int minForDiscount){
 //        if(price < 0)
 //            return false;
@@ -44,8 +46,6 @@ public class PremiumAccount extends Account{
         return products.get(productName);
     }
 
-
-    @Override
     public String toString() {
         String part1 = "Premium Account: " + this.getObjectID() +
                 "\nID: " + this.getID()+

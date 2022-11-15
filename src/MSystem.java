@@ -19,8 +19,7 @@ public class MSystem {
     public static HashMap<String, Supplier> getAllSuppliers(){
         return allSuppliers;
     }
-
-    /**
+   /**
      * addUser - add new user to system.
      *
      * @param login_id       Username, should be unique.
@@ -34,6 +33,11 @@ public class MSystem {
      * @throws Exception Throw expection if creation failed: user name already taken\
      *                   costumer already has user on the system (according id).
      */
+
+   public User getCurrentLogged()
+   {
+       return currentLogged;
+   }
     public void addUser(String login_id, String password, String id,
                         String address, String phone, String email, String billingAddress, boolean premium) throws Exception {
 
@@ -46,7 +50,7 @@ public class MSystem {
                 User user = new User(login_id, password, id, customer);
                 customer.setUser(user);
             } else
-                throw new Exception("Costumer already exist.");
+                throw new Exception("Costumer ID already exist.");
         } else
             throw new Exception("User already exist.");
     }
@@ -64,10 +68,13 @@ public class MSystem {
         if (user == null)
             throw new Exception("User doesnt exist.");
 
-        // Case2 - user is logged in.
-        if (currentLogged.getLogin_id() == login_id)
-            throw new Exception("Logout first.");
-
+//        // Case2 - user is logged in.
+//        if (currentLogged != null && currentLogged.getLogin_id().equals(login_id))
+//            throw new Exception("Logout first.");
+        if (currentLogged != null) {
+            if (user.getLogin_id().equals(currentLogged.getLogin_id()))
+                currentLogged = null;
+        }
         //User.getRegisteredUsers().remove(user.getLogin_id());
         user.removeUser();
 
@@ -81,11 +88,16 @@ public class MSystem {
      * @throws Exception if: 1. Username doesnt exist. 2. Another user logged to system. 3. Wrong password.
      */
     public void login(String login_id, String password) throws Exception {
-        if (currentLogged == null)
-            throw new Exception("Another user is logged in.");
+
         User user = User.getRegisteredUsers().get(login_id);
         if (user == null)
             throw new Exception("User doesnt exist.");
+        else if (currentLogged != null) {
+            if (currentLogged.getLogin_id().equals(login_id))
+                throw new Exception("You already logged in!");
+            else
+                throw new Exception("Another user is logged in.");
+        }
         else {
             if (password.equals(user.getPassword())) {
                 currentLogged = user;
@@ -102,13 +114,15 @@ public class MSystem {
      * @throws Exception if 1. User wants to logout is not logged in. 2. Username doesnt exist.
      */
     public void logout(String login_id) throws Exception {
+        if (currentLogged == null)
+            throw new Exception("No user is logged in.");
         User user = User.getRegisteredUsers().get(login_id);
         if (user != null) {
             if (user.getLogin_id().equals(currentLogged.getLogin_id())) {
                 currentLogged = null;
                 user.setState(UserState.Active);
             } else
-                throw new Exception(login_id + "is not logged in");
+                throw new Exception(login_id + " is not logged in");
         } else
             throw new Exception("User doesnt exist.");
 
@@ -127,6 +141,7 @@ public class MSystem {
             Customer customer = user.getCustomer();
             java.lang.System.out.println(customer.getObjectID());
             // print user -> customer -> account
+
             Account account = customer.getAccount();
             java.lang.System.out.println(account.getObjectID());
             // print user -> customer -> account -> shopping cart
@@ -230,6 +245,8 @@ public class MSystem {
     }
 
 
+
+
     public void LinkProduct(String productName, float price, int quantity) throws Exception {
         if(price <= 0 )
             throw new Exception("Invalid price.");
@@ -243,11 +260,15 @@ public class MSystem {
             Product prod = Product.getProduct(productName);
             if (prod != null)
                 pa.addProduct(prod,price,quantity);
+            else
+                throw new Exception("Product not exist.");
         }
+        else
+            throw new Exception("You are not premium account.");
     }
 
 
-    public void AddProduct(String productName, String supplierName) throws Exception {
+    public void addProduct(String productName, String supplierName) throws Exception {
         // we need to ask in the menu for those details.
         Supplier supplier = getAllSuppliers().get(supplierName);
         if (supplier == null)
