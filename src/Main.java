@@ -147,56 +147,67 @@ public class Main {
                     break;
 
                 case 5:
-                    try {
-                        Scanner scanner6 = new Scanner(System.in);
-                        System.out.println("Please enter Address: ");
-                        String addressOrder = scanner6.nextLine();
-                        String orderID = mainsys.CreateNewOrder(addressOrder);
-                        System.out.println("Your OrderID - " + orderID);
-                        Scanner scanner6b = new Scanner(System.in);
-                        System.out.println("Please enter payer ID: ");
-                        String payID = scanner6b.nextLine();
-                        Scanner scanner7b = new Scanner(System.in);
-                        System.out.println("Please enter details: ");
-                        String payDetails = scanner6b.nextLine();
-                        Scanner scanner6a = new Scanner(System.in);
-                        System.out.println("How would you like to pay? press:\n (1) Delayed Payment. \n(2) Immediate Payment. ");
-                        String paymentType = scanner6a.nextLine();
-                        try
-                        {
-                            mainsys.payment(paymentType, payID, payDetails, orderID);
+                    if (user_connected == true) {
+                        try {
+                            Scanner scanner6 = new Scanner(System.in);
+                            System.out.println("Please enter Address: ");
+                            String addressOrder = scanner6.nextLine();
+                            String orderID = mainsys.CreateNewOrder(addressOrder);
+                            System.out.println("Your OrderID - " + orderID);
+                            Scanner scanner6b = new Scanner(System.in);
+                            System.out.println("Please enter payer ID: ");
+                            String payID = scanner6b.nextLine();
+                            Scanner scanner7b = new Scanner(System.in);
+                            System.out.println("Please enter details: ");
+                            String payDetails = scanner6b.nextLine();
+                            Scanner scanner6a = new Scanner(System.in);
+                            System.out.println("How would you like to pay? press:\n(1) Delayed Payment. \n(2) Immediate Payment. ");
+                            String paymentType = scanner6a.nextLine();
+                            try {
+                                mainsys.payment(paymentType, payID, payDetails, orderID);
+                            } catch (Exception ex) {
+                                System.out.println(ex.getMessage());
+                            }
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
                         }
-                        catch (Exception ex)
-                        {
-                            System.out.println(ex.getMessage());
-                        }
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
                     }
+                    else
+                        System.out.println("No one is connected...");
 
                     break;
                 case 6:
-                    try {
-                        Scanner scanner6 = new Scanner(System.in);
-                        System.out.println("Please enter Order ID: ");
-                        String order_id = scanner6.nextLine();
+                    if (user_connected != false) {
+                        try {
+                            Scanner scanner6 = new Scanner(System.in);
+                            System.out.println("Please enter Order ID: ");
+                            String order_id = scanner6.nextLine();
 
-                        System.out.println("Please enter the User ID you want to Order from: ");
-                        String order_from_id = scanner6.nextLine();
+                            System.out.println("Please enter the User ID you want to Order from: ");
+                            String order_from_id = scanner6.nextLine();
 
-                        System.out.println("Please enter product name: ");
-                        String product_name = scanner6.nextLine();
-                        mainsys.AddProductToOrder(order_id,order_from_id,product_name);
+                            System.out.println("Please enter product name: ");
+                            String product_name = scanner6.nextLine();
+                            mainsys.AddProductToOrder(order_id, order_from_id, product_name);
 
-                        System.out.println("The product successfully added to order");
+                            System.out.println("The product successfully added to order");
 
-                    } catch (Exception e) {
-                        System.out.println("Failed to add please try again");
+                        } catch (Exception e) {
+                            System.out.println("Failed to add please try again");
+                        }
                     }
+                    else
+                        System.out.println("No one is connected...");
                     break;
 
                 case 7:
-                    mainsys.DisplayOrder(mainsys.getCurrentLogged().getLogin_id());
+                    try {
+                        mainsys.DisplayOrder();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.out.println(ex.getMessage());
+                    }
                     break;
 
                 case 8:

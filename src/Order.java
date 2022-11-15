@@ -16,7 +16,7 @@ public class Order {
     // Links
     private Map<String, LineItem> items;
     private Map<String, Payment> payments;
-    private Account account;
+    private final Account account;
     
     public Order(String Address, Account account) {
         this.objectID = "OR" + String.valueOf(numOfOrders++);
@@ -112,7 +112,7 @@ public class Order {
             return false;
         }
         Order order = (Order) o;
-        return this.objectID == order.objectID;
+        return this.objectID.equals(order.objectID);
     }
 
 
@@ -139,6 +139,16 @@ public class Order {
         return part1 + part2;
     }
 
+    public String display()
+    {
+        return "Order: " + this.getObjectID() +
+                "\nOrderID: " + this.getObjectID()+
+                "\nOrdered: " + this.ordered.toString()+
+                "\nShipped: " + String.format(this.shipped!=null? this.shipped.toString() : "---") +
+                "\nShip TO: " + this.getAddress()+
+                "\nStatus: " + this.getStatus().toString() +
+                "\nTotal: " + this.total;
+    }
 
     public Collection<LineItem> getLineItems() { 
         return items.values();
@@ -150,7 +160,7 @@ public class Order {
 
     public String getObjectID()
     {
-        return "Order: " + this.objectID;
+        return this.objectID;
     }
 
     public void removeOrder() {

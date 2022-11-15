@@ -5,9 +5,9 @@ import java.util.*;
 public class Account {
    private static int numOfAccounts = 0; 
    private final String objectID;
-
+   private Order lastOrder = null;
    private final String id;
-   private String billing_address;
+   private final String billing_address;
    private boolean is_closed;
    private Date open;
    private Date closed;
@@ -64,9 +64,13 @@ public class Account {
         Order order = new Order(address, this);
         String orderID = order.getID();
         orders.put(orderID, order);
+        lastOrder = order;
         return orderID;
     }
 
+    public Order getLastOrder() {
+        return lastOrder;
+    }
 
     /**
      * @return Person billing address.

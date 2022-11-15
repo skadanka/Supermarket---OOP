@@ -11,7 +11,6 @@ public class MSystem {
  * This class responsible is manging the system.
  * */
 
-
     private User currentLogged = null;
     // Key: String username, Value: User object, Support User.verity(password);
     private static HashMap<String, Supplier> allSuppliers = new HashMap<>();
@@ -227,7 +226,7 @@ public class MSystem {
                 for (Order o :
                         Order.getAllOrders()) {
                     if (o.getID().equals(objectID)){
-                        java.lang.System.out.println(o.toString());
+                        java.lang.System.out.println(o.showObject());
                     flag = true;
                     break;
                 }
@@ -334,7 +333,6 @@ public class MSystem {
     public String CreateNewOrder(String address){
         Account account = currentLogged.getAccount();
         String out = account.addOrder(address);
-
         return out;
     }
 
@@ -377,27 +375,25 @@ public class MSystem {
                         ProductInfo productInfo = preAcc.getProduct(product_name);
                         int sellerQuantity = productInfo.getQuantity();
                         float price = productInfo.getPrice();
-                        float discount = productInfo.getDiscount();
-                        int minForDiscount = productInfo.getMinForDiscount();
                         Scanner sc = new Scanner(System.in);
-                        System.out.format("%s can supply %d amount of %s at Price: %d...\n  You get %s% for buying %d",
-                                login_id, sellerQuantity, product_name, discount*100, minForDiscount);
-                        boolean flag = true;
-                        do{
-                            System.out.println("Insert Quantity");
-                            int quantity  = sc.nextInt();
-                            if(quantity > sellerQuantity)
-                                System.out.format("Seller can supply only %d", sellerQuantity);
-                            System.out.print("Want to change for available quantity? or Back to main menu (y\n)");
-                            String ans = sc.nextLine();
-                            if(ans.equals("y"))
-                                flag = false;
-                            else if(ans.equals("n"))
-                                return;
-
-                        }
-                        while(flag);
-                        buyer.AddProduct(order_id, productInfo.getProduct(), sellerQuantity, price);
+                        System.out.format("%s can supply %d amount of %s at Price: %f{2}...",
+                                login_id, sellerQuantity, product_name, price);
+//                        boolean flag = true;
+//                        do{
+//                            System.out.println("Insert Quantity");
+//                            int quantity  = sc.nextInt();
+//                            if(quantity > sellerQuantity)
+//                                System.out.format("Seller can supply only %d", sellerQuantity);
+//                            System.out.print("Want to change for available quantity? or Back to main menu (y\n)");
+//                            String ans = sc.nextLine();
+//                            if(ans.equals("y"))
+//                                flag = false;
+//                            else if(ans.equals("n"))
+//                                return;
+//
+//                        }
+//                        while(flag);
+//                        buyer.AddProduct(order_id, productInfo.getProduct(), sellerQuantity, price);
                     }
                     else{
                         System.out.println("User doesn't own any products.");
@@ -414,10 +410,13 @@ public class MSystem {
 
     }
 
-    public void DisplayOrder(String login_id){
-        // Get all Sorted Orders
-        // Get the first Order where login_id == Order.User_id
-        // ** Order_id, Create, Shipped, Address, OrderStatus, Price **
+    public void DisplayOrder() throws Exception {
+        if (currentLogged == null)
+            throw new Exception("No one is logged in.");
+        if (currentLogged.getAccount().getLastOrder() == null)
+            throw new Exception("You didnt made any orders...");
+        else
+            System.out.println(currentLogged.getAccount().getLastOrder().display());
     }
 
     public void addSupplier(String id,String name) throws Exception {
