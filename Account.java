@@ -209,10 +209,11 @@ public class Account {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Account account)) {
+        if (!(o instanceof Account)) {
             return false;
         }
-        return this.objectID.equals(account.getObjectID());
+        Account a = (Account) o;
+        return this.objectID.equals(a.getObjectID());
     }
 
 

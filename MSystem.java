@@ -15,6 +15,7 @@ public class MSystem {
     // Key: String username, Value: User object, Support User.verity(password);
     private static HashMap<String, Supplier> allSuppliers = new HashMap<>();
 
+
     public static HashMap<String, Supplier> getAllSuppliers(){
         return allSuppliers;
     }
@@ -147,7 +148,7 @@ public class MSystem {
             }
             // print all suppliers.
             for (Supplier supplier :
-                    Supplier.getRegisteredSuppliers()) {
+                    getAllSuppliers().values()) {
                 java.lang.System.out.println(supplier);
                 // for each supplier print its products.
                 for (Product product : supplier.getProducts())
@@ -208,7 +209,7 @@ public class MSystem {
 
             case "SU":
                 for (Supplier s :
-                        Supplier.getRegisteredSuppliers()) {
+                        getAllSuppliers().values()) {
                     if (s.getObjectID().equals(objectID))
                         java.lang.System.out.println(s.toString());
                 }
@@ -236,7 +237,8 @@ public class MSystem {
             throw new Exception("Invalid quantity.");
         // Check if current logged user is Premium Account
         Account currAccount = currentLogged.getCustomer().getAccount();
-        if (currAccount instanceof PremiumAccount pa) {
+        if (currAccount instanceof PremiumAccount) {
+            PremiumAccount pa = (PremiumAccount) currAccount;
             // Check if product exist in the database
             Product prod = Product.getProduct(productName);
             if (prod != null)
@@ -245,11 +247,11 @@ public class MSystem {
     }
 
 
-    public void AddProduct(String productName, String supplierName) {
+    public void AddProduct(String productName, String supplierName) throws Exception {
         // we need to ask in the menu for those details.
         Supplier supplier = getAllSuppliers().get(supplierName);
         if (supplier == null)
-            supplier = new Supplier(supplierName);
+            throw new Exception("Supplier not exist.");
         Product prod = new Product(productName, productName, supplier);
         supplier.addProducts(prod);
     }
