@@ -24,7 +24,7 @@ public class DelayedPayment extends Payment {
 
     public String showObject()
     {
-        return "Delayed " + super.getObjectID();
+        return "Delayed " + super.showObject();
     }
 
     public String toString() {

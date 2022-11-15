@@ -205,10 +205,10 @@ public class MSystem {
                     flag = true;
                     break;
                 }
-        }
-        if (!flag)
-            throw new Exception("ObjectID doesnt exist.");
-        break;
+            }
+            if (!flag)
+                throw new Exception("ObjectID doesnt exist.");
+            break;
             case "LI": 
                 for (LineItem li :
                         LineItem.getLineItems()) {
@@ -217,23 +217,23 @@ public class MSystem {
                     flag = true;
                     break;
                 }
-        }
-        if (!flag)
-            throw new Exception("ObjectID doesnt exist.");
-        break;
+            }
+            if (!flag)
+                throw new Exception("ObjectID doesnt exist.");
+            break;
 
             case "OR":
                 for (Order o :
                         Order.getAllOrders()) {
                     if (o.getID().equals(objectID)){
-                        java.lang.System.out.println(o.showObject());
+                        java.lang.System.out.println(o.toString());
                     flag = true;
                     break;
                 }
-        }
-        if (!flag)
-            throw new Exception("ObjectID doesnt exist.");
-        break;
+            }
+            if (!flag)
+                throw new Exception("ObjectID doesnt exist.");
+            break;
             case "PA":
                 for (Payment p :
                         Payment.getAllPayments()) {
@@ -242,10 +242,10 @@ public class MSystem {
                     flag = true;
                     break;
                 }
-        }
-        if (!flag)
-            throw new Exception("ObjectID doesnt exist.");
-        break;
+            }
+            if (!flag)
+                throw new Exception("ObjectID doesnt exist.");
+            break;
             case "PR":
                 for (Product p :
                         Product.getAllProducts()) {
@@ -258,14 +258,25 @@ public class MSystem {
         if (!flag)
             throw new Exception("ObjectID doesnt exist.");
         break;
+            case "SC":
+                for (ShoppingCart sc :
+                        ShoppingCart.getAllShoppingCarts().values()) {
+                    if (sc.getObjectID().equals(objectID)){
+                        java.lang.System.out.println(sc.toString());
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag)
+                    throw new Exception("ObjectID doesnt exist.");
             case "SU":
                 for (Supplier s :
                         getAllSuppliers().values()) {
                     String id = s.getObjectID();
                     if (id.equals(objectID)){
-                        java.lang.System.out.println(s.getObjectID());
-                    flag = true;
-                    break;
+                        System.out.println(s.toString());
+                        flag = true;
+                        break;
                 }
         }
         if (!flag)
@@ -360,53 +371,46 @@ public class MSystem {
 
 
 
-    public void AddProductToOrder(String order_id, String login_id, String product_name){
+    public void AddProductToOrder(String order_id, String login_id, String product_name) throws Exception {
         // check if the login_id exist in the database? and use is prime
         // check order_id exist in the database
         // check product exist in the database?
         // Create new Line_item? and add a field to orders to contain all the lineitems?
+        int quantity;
         Account buyer = currentLogged.getAccount();
-        if (buyer.OrderExist(order_id))
-            if (User.getUser(login_id) != null){
-                Account seller = User.getUser(login_id).getAccount();
-                if(seller instanceof PremiumAccount){
-                    PremiumAccount preAcc = (PremiumAccount) seller;
-                    if(preAcc.ownProduct(product_name)){
-                        ProductInfo productInfo = preAcc.getProduct(product_name);
-                        int sellerQuantity = productInfo.getQuantity();
-                        float price = productInfo.getPrice();
-                        Scanner sc = new Scanner(System.in);
-                        System.out.format("%s can supply %d amount of %s at Price: %f{2}...",
-                                login_id, sellerQuantity, product_name, price);
-//                        boolean flag = true;
-//                        do{
-//                            System.out.println("Insert Quantity");
-//                            int quantity  = sc.nextInt();
-//                            if(quantity > sellerQuantity)
-//                                System.out.format("Seller can supply only %d", sellerQuantity);
-//                            System.out.print("Want to change for available quantity? or Back to main menu (y\n)");
-//                            String ans = sc.nextLine();
-//                            if(ans.equals("y"))
-//                                flag = false;
-//                            else if(ans.equals("n"))
-//                                return;
-//
-//                        }
-//                        while(flag);
-//                        buyer.AddProduct(order_id, productInfo.getProduct(), sellerQuantity, price);
-                    }
-                    else{
-                        System.out.println("User doesn't own any products.");
-                    }
-
-                }
+        if (!buyer.OrderExist(order_id))
+            throw new Exception("Order not Found!");
+        if (User.getUser(login_id) == null)
+            throw new Exception("User not Found!");
+        Account seller = User.getUser(login_id).getAccount();
+        if(!(seller instanceof PremiumAccount))
+            throw new Exception("User is not premium account.");
+        PremiumAccount preAcc = (PremiumAccount) seller;
+        if(!preAcc.ownProduct(product_name))
+            throw new Exception("User doesn't own any products.");
+        ProductInfo productInfo = preAcc.getProduct(product_name);
+        int sellerQuantity = productInfo.getQuantity();
+        float price = productInfo.getPrice();
+        Scanner sc = new Scanner(System.in);
+        System.out.format("%s can supply %d amount of %s at Price: %.2f...", login_id, sellerQuantity, product_name, price);
+        boolean flag = true;
+        do{
+            System.out.println("Insert Quantity");
+            quantity  = sc.nextInt();
+            if(quantity > sellerQuantity) {
+                System.out.format("Seller can supply only %d", sellerQuantity);
+                System.out.print("Want to change for requested quantity? or Back to main menu (y\n)");
+                String ans = sc.nextLine();
+                if(ans.equals("y"))
+                    flag = false;
+                else if(ans.equals("n"))
+                    return;
             }
-            else{
-                System.out.println("User not Found!");
-            }
-        else{
-            System.out.println("Order not Found!");
+            else
+                flag = false;
         }
+        while(flag);
+        buyer.AddProduct(order_id, productInfo.getProduct(), quantity, price);
 
     }
 

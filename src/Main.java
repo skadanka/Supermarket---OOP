@@ -147,7 +147,8 @@ public class Main {
                     break;
 
                 case 5:
-                    if (user_connected == true) {
+
+                    if (user_connected) {
                         try {
                             Scanner scanner6 = new Scanner(System.in);
                             System.out.println("Please enter Address: ");
@@ -161,13 +162,17 @@ public class Main {
                             System.out.println("Please enter details: ");
                             String payDetails = scanner6b.nextLine();
                             Scanner scanner6a = new Scanner(System.in);
-                            System.out.println("How would you like to pay? press:\n(1) Delayed Payment. \n(2) Immediate Payment. ");
-                            String paymentType = scanner6a.nextLine();
-                            try {
-                                mainsys.payment(paymentType, payID, payDetails, orderID);
-                            } catch (Exception ex) {
-                                System.out.println(ex.getMessage());
-                            }
+                            do {
+                                System.out.println("How would you like to pay? press:\n(1) Delayed Payment. \n(2) Immediate Payment. ");
+                                String paymentType = scanner6a.nextLine();
+                                try {
+                                    mainsys.payment(paymentType, payID, payDetails, orderID);
+                                    break;
+                                } catch (Exception ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+                            }while (true);
+
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
@@ -193,7 +198,7 @@ public class Main {
                             System.out.println("The product successfully added to order");
 
                         } catch (Exception e) {
-                            System.out.println("Failed to add please try again");
+                            System.out.println(e.getMessage());
                         }
                     }
                     else

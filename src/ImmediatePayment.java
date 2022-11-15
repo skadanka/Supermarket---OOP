@@ -27,7 +27,7 @@ public class ImmediatePayment extends Payment {
     }
     public String showObject()
     {
-        return "Immediate " + super.getObjectID();
+        return "Immediate " + super.showObject();
     }
 
 

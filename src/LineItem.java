@@ -15,7 +15,7 @@ public class LineItem {
 
 
     public LineItem(int quantity, float price, ShoppingCart shoppingCart, Order order, Product product) {
-        this.ObjectID = "li" + String.valueOf(numOfLineItems++);
+        this.ObjectID = "LI" + String.valueOf(numOfLineItems++);
         this.quantity = quantity;
         this.price = price;
         this.shoppingCart = shoppingCart;

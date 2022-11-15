@@ -82,18 +82,20 @@ public class Supplier {
                 "\nID: " + this.id+
                 "\nName: " + this.name;
 
+
+        StringBuilder prod = new StringBuilder();
+
         if (this.getProducts().size() != 0)
         {
-            StringBuilder products = new StringBuilder();
-            products.append("\nConnected Items: ");
+            prod.append("\nConnected Items: ");
             for (Product p:
                     this.getProducts()) {
-                products.append("\n").append(p.getObjectID());
+                prod.append("\n").append(p.getObjectID());
             }
 
         }
 
-        return part1 + products;
+        return part1 + prod.toString();
     }
 
 

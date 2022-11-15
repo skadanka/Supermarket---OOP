@@ -22,6 +22,8 @@ public class ShoppingCart {
 
     }
 
+
+
     public void setUser(User user)
     {
         this.user = user;
@@ -71,9 +73,14 @@ public class ShoppingCart {
         StringBuilder part2 = new StringBuilder();
         for (LineItem item: this.items.values()
              ) {
-            part2.append(item.getID());
+            part2.append("\nLine Item: "+item.getID());
         }
 
         return part1 + part2.toString();
+    }
+
+    public static HashMap<String,ShoppingCart> getAllShoppingCarts()
+    {
+        return allShoppingCarts;
     }
 }
