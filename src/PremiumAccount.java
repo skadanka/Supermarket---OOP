@@ -5,17 +5,10 @@ public class PremiumAccount extends Account{
     
     private Map<String, ProductInfo> products;
 
-    public PremiumAccount(String id, String billing_address) {
-        super(id, billing_address);
+    public PremiumAccount(String id, String billing_address, Customer c) {
+        super(id, billing_address, c);
         this.products = new HashMap<>();
     }
-
-    public void setNewQuantity(int productQuantity)
-    {
-        ProductInfo info = products.get(this.getObjectID());
-        info.setQuantity(info.getQuantity() - productQuantity);
-    }
-
 
 
 //    public boolean addProduct(Product product, int price, float discount, int quantity, int minForDiscount){
@@ -38,6 +31,7 @@ public class PremiumAccount extends Account{
     public void addProduct(Product product, float price, int quantity){
         ProductInfo productInfo = new ProductInfo(product, price, quantity);
         products.put(product.getName(), productInfo);
+        product.setOwner(this);
     }
 
     public void deleteFromProducts(String productName){
@@ -86,13 +80,13 @@ public class PremiumAccount extends Account{
                 this.getPayments()) {
             payments.append("\n" + p.getObjectID());
         }
-        StringBuilder products = new StringBuilder();
+        StringBuilder prod1 = new StringBuilder();
 
         for (ProductInfo pr:
                 this.products.values()) {
-            products.append("\n" + pr.getProduct().getObjectID());
+            prod1.append("\n" + pr.getProduct().getObjectID());
         }
-        return part1 + orders + payments + products;
+        return part1 + orders + payments + prod1;
     }
 
 }

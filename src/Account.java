@@ -13,7 +13,7 @@ public class Account {
    private Date closed;
    private int balance;
    private static HashMap<String, Account> registeredAccounts = new HashMap<>();
-
+   private Customer customer;
     // Links
    private HashMap<String, Order> orders;
    //private List<Order> orders;
@@ -26,7 +26,7 @@ public class Account {
      * @param id Persons ID -> used for initiate costumer and account.
      * @param billingAddress Persons billing address -> used for initiate account.
      */
-    public Account(String id, String billingAddress) {
+    public Account(String id, String billingAddress, Customer c) {
         this.objectID = "AC" + String.valueOf(numOfAccounts++);
         this.billing_address = billingAddress;
         this.is_closed = false;
@@ -39,7 +39,7 @@ public class Account {
         this.shoppingCart = new ShoppingCart();
         this.shoppingCart.setAccount(this);
         registeredAccounts.put(id, this);
-
+        customer = c;
     }
 
     /**\
@@ -204,6 +204,7 @@ public class Account {
                 "\nClosed: TBD" +
                 "\nBalance: " + this.getBalance()+
                 "\nConnected Items: " +
+                "\n" + this.getCustomer().getObjectID()+
                 "\n" + this.getShoppingCart().getObjectID();
 
         StringBuilder orders = new StringBuilder();
@@ -236,4 +237,7 @@ public class Account {
         this.getPayments().add(p);
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
 }

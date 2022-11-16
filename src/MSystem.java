@@ -122,8 +122,8 @@ public class MSystem {
         User user = User.getRegisteredUsers().get(login_id);
         if (user != null) {
             if (user.getLogin_id().equals(currentLogged.getLogin_id())) {
-                this.logout(login_id);
                 user.setState(UserState.Active);
+                currentLogged = null;
             } else
                 throw new Exception(login_id + " is not logged in");
         } else
@@ -414,7 +414,8 @@ public class MSystem {
         }
         while(flag);
         buyer.AddProduct(order_id, productInfo.getProduct(), quantity, price);
-        preAcc.setNewQuantity(quantity);
+
+
 
     }
 

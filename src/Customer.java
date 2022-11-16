@@ -39,10 +39,10 @@ public class Customer {
         this.id = id;
         if (premium)
         {
-            account = new PremiumAccount(id, billingAddress);
+            account = new PremiumAccount(id, billingAddress, this);
         }
         else
-            account = new Account(id, billingAddress);
+            account = new Account(id, billingAddress, this);
         registeredCostumers.put(id, this);
     }
 

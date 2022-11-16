@@ -7,8 +7,6 @@ public class Product {
 
    private String id;
    private String name;
-   private int price;
-   private int quantity;
     private static HashMap<String, Product> allProducts = new HashMap<>();
 
    // Links
@@ -55,6 +53,10 @@ public class Product {
         return allProducts.get(productName);
     }
 
+    public void setOwner(PremiumAccount premiumAccount)
+    {
+        this.owendByAccount = premiumAccount;
+    }
 
     public void deleteProduct(){
         for (LineItem li : this.getLineItems()) {
@@ -63,7 +65,8 @@ public class Product {
         }
         allProducts.remove(this.name);
         this.supplier.deleteFromProducts(this.name);
-        ((PremiumAccount)this.owendByAccount).deleteFromProducts(this.name);
+        if (owendByAccount != null)
+            ((PremiumAccount)this.owendByAccount).deleteFromProducts(this.name);
     }
 
 
@@ -109,24 +112,17 @@ public class Product {
      */
     public Account getOwendByAccount() { return owendByAccount; }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
 
     public String toString() {
         String part1 = "Product: " + this.getObjectID() +
                 "\nID: " + this.id+
                 "\nName: " + this.name+
                 "\nConnected Objects: " +
-                "\nSupplier: " + this.supplier;
+                "\nSupplier: " + this.getObjectID();
         StringBuilder part2 = new StringBuilder();
 
         if (this.owendByAccount != null)
-            part2.append("\nPremium Account: " + this.owendByAccount.getID());
+            part2.append("\nPremium Account: " + this.owendByAccount.getObjectID());
         if (this.getLineItems().size() != 0)
         {
             for (LineItem li:

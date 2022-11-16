@@ -20,7 +20,7 @@ public class Main {
         Product bamba = Product.getProduct("Bamba");
         a.addProduct(bamba,3,5);
         int choice;
-        while(true) {
+        while(!done) {
             System.out.println("Hello, what would u like to do? please enter the number");
             System.out.println("1. Add user");
             System.out.println("2. Remove user");
@@ -173,7 +173,15 @@ public class Main {
                                 String paymentType = scanner6a.nextLine();
                                 try {
                                     mainsys.payment(paymentType, payID, payDetails, orderID);
-                                    break;
+                                    System.out.println("Do you want to add another payment? (y/n)");
+                                    Scanner scanner7c = new Scanner(System.in);
+                                    String addPay = scanner7c.nextLine();
+                                    if (addPay.equals("n"))
+                                    {
+                                        break;
+                                    }
+                                    else if (!(addPay.equals("y")))
+                                        System.out.println("Invalid answer.");
                                 } catch (Exception ex) {
                                     System.out.println(ex.getMessage());
                                 }
@@ -202,6 +210,7 @@ public class Main {
                             mainsys.AddProductToOrder(order_id, order_from_id, product_name);
 
                             System.out.println("The product successfully added to order");
+
 
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
@@ -296,6 +305,11 @@ public class Main {
                     break;
                 case 13:
                     done = true;
+                    if (user_connected){
+                        String loginID = mainsys.getCurrentLogged().getLogin_id();
+                        mainsys.logout(loginID);
+                        user_connected = false;
+                    }
                     System.out.println("Goodbye!");
                     break;
                 default :
