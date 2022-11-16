@@ -35,6 +35,11 @@ public class Main {
             System.out.println("11. Show all objects");
             System.out.println("12. Show object ID");
             System.out.println("13. Exit");
+            if (!input.hasNextInt())
+                {
+                    input.nextLine();
+                    continue;
+                }
             choice = input.nextInt();
 
             switch (choice) {
@@ -99,7 +104,8 @@ public class Main {
                     System.out.println("Enter Login id");
                     String Login_id = scanner2.nextLine();
                     try {
-                        mainsys.removeUser(Login_id);
+                        if(mainsys.removeUser(Login_id))
+                            user_connected = false;
                         System.out.println("User Removed successfully!");
 
                     } catch (Exception e) {

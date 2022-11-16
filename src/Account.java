@@ -9,7 +9,7 @@ public class Account {
    private final String id;
    private final String billing_address;
    private boolean is_closed;
-   private Date open;
+   private final Date open;
    private Date closed;
    private int balance;
    private static HashMap<String, Account> registeredAccounts = new HashMap<>();
@@ -35,7 +35,6 @@ public class Account {
         this.balance = 0;
         this.id = id;
         this.orders = new HashMap<>();
-        //this.orders = new ArrayList<>();
         this.payments = new ArrayList<>();
         this.shoppingCart = new ShoppingCart();
         this.shoppingCart.setAccount(this);
@@ -43,6 +42,11 @@ public class Account {
 
     }
 
+    /**\
+     * Order Exist.
+     * @param OrderID get from user (unique for each order).
+     * @return
+     */
     public boolean OrderExist(String OrderID){
         return orders.containsKey(OrderID);
     }

@@ -62,8 +62,9 @@ public class MSystem {
      * @param login_id Username to remove.
      * @throws Exception if: 1. User doesnt exist. 2. User is currently login.
      */
-    public void removeUser(String login_id) throws Exception {
+    public boolean removeUser(String login_id) throws Exception {
         // Case1 - user doesnt exist.
+        boolean wasConnected = false;
         User user = User.getRegisteredUsers().get(login_id);
         if (user == null)
             throw new Exception("User doesnt exist.");
@@ -72,12 +73,14 @@ public class MSystem {
 //        if (currentLogged != null && currentLogged.getLogin_id().equals(login_id))
 //            throw new Exception("Logout first.");
         if (currentLogged != null) {
-            if (user.getLogin_id().equals(currentLogged.getLogin_id()))
+            if (user.getLogin_id().equals(currentLogged.getLogin_id())) {
                 currentLogged = null;
+                wasConnected = true;
+            }
         }
         //User.getRegisteredUsers().remove(user.getLogin_id());
         user.removeUser();
-
+        return wasConnected;
     }
 
     /**
@@ -119,7 +122,7 @@ public class MSystem {
         User user = User.getRegisteredUsers().get(login_id);
         if (user != null) {
             if (user.getLogin_id().equals(currentLogged.getLogin_id())) {
-                currentLogged = null;
+                this.logout(login_id);
                 user.setState(UserState.Active);
             } else
                 throw new Exception(login_id + " is not logged in");
