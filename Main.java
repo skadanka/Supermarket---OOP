@@ -203,7 +203,8 @@ public class Main {
                     System.out.println("Please enter product's name:");
                     String productName = scanner9.nextLine();
                     try {
-                        mainsys.AddProduct(productName, productId, supplierId,supplierName);
+                        mainsys.AddProduct(productName,supplierName);
+//                        mainsys.AddProduct(productName, productId, supplierId,supplierName);
                         System.out.println("Your product has successfully added!");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
