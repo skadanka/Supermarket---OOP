@@ -20,7 +20,7 @@ public abstract class Payment {
     // Account account;
 
     public Payment(String id, String Details, Order order, Account account) {
-        this.objectID = "PA" + String.valueOf(numOfPayments);
+        this.objectID = "PA" + String.valueOf(numOfPayments++);
         this.id = id;
         this.paid = new Date();
         this.total = 0;
@@ -40,7 +40,7 @@ public abstract class Payment {
     }
 
     public String getId() {
-        return "Payment: " + this.id;
+        return this.id;
     }
 
     public String showObject()

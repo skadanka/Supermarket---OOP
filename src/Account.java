@@ -63,7 +63,11 @@ public class Account {
     }
 
 
-
+    /**
+     * Add order to account order list.
+     * @param address
+     * @return
+     */
     public String addOrder(String address){
         Order order = new Order(address, this);
         String orderID = order.getID();

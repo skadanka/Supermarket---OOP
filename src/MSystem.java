@@ -390,7 +390,7 @@ public class MSystem {
             throw new Exception("User is not premium account.");
         PremiumAccount preAcc = (PremiumAccount) seller;
         if(!preAcc.ownProduct(product_name))
-            throw new Exception("User doesn't own any products.");
+            throw new Exception("User doesn't own this product.");
         ProductInfo productInfo = preAcc.getProduct(product_name);
         int sellerQuantity = productInfo.getQuantity();
         float price = productInfo.getPrice();
@@ -414,6 +414,7 @@ public class MSystem {
         }
         while(flag);
         buyer.AddProduct(order_id, productInfo.getProduct(), quantity, price);
+        preAcc.setNewQuantity(quantity);
 
     }
 

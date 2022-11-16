@@ -17,7 +17,7 @@ public class DelayedPayment extends Payment {
         this.paymentDate = paymentDate;
     }
 
-    public DelayedPayment paymentDate(Date paymentDate) {
+    public DelayedPayment getPaymentDate(Date paymentDate) {
         setPaymentDate(paymentDate);
         return this;
     }
@@ -28,15 +28,18 @@ public class DelayedPayment extends Payment {
     }
 
     public String toString() {
-        return  "Delayed Payment: " + this.getObjectID() +
+        String part1 = "Delayed Payment: " + this.getObjectID() +
                 "\nID: " + this.getId()+
                 "\nPaid Date: " + this.getPaid().toString()+
                 "\nTotal: " + this.getTotal() +
-                "\nDetails: " + this.getDetails()+
-                "\nPayment Date: " + this.paymentDate.toString()+
+                "\nDetails: " + this.getDetails() +
+                "\nPayment Date: " + (this.getPaymentDate() != null ? this.getPaymentDate().toString() : "---") +
                 "\nConnected Items: " +
                 "\nAccount: " + this.getAccount().getID() +
                 "\nOrder: " + this.getOrder().getObjectID();
+        return  part1;
+
+
 
     }
 

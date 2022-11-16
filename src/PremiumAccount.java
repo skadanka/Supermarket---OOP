@@ -10,6 +10,12 @@ public class PremiumAccount extends Account{
         this.products = new HashMap<>();
     }
 
+    public void setNewQuantity(int productQuantity)
+    {
+        ProductInfo info = products.get(this.getObjectID());
+        info.setQuantity(info.getQuantity() - productQuantity);
+    }
+
 
 
 //    public boolean addProduct(Product product, int price, float discount, int quantity, int minForDiscount){
@@ -80,8 +86,13 @@ public class PremiumAccount extends Account{
                 this.getPayments()) {
             payments.append("\n" + p.getObjectID());
         }
+        StringBuilder products = new StringBuilder();
 
-        return part1 + orders + payments;
+        for (ProductInfo pr:
+                this.products.values()) {
+            products.append("\n" + pr.getProduct().getObjectID());
+        }
+        return part1 + orders + payments + products;
     }
 
 }

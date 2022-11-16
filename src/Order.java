@@ -50,7 +50,9 @@ public class Order {
     }
 
     public void addLineItem(LineItem lineItem){
+
         this.items.put(lineItem.getID(), lineItem);
+        this.total += lineItem.getQuantity() * lineItem.getPrice();
     }
 
     public String showObject()
@@ -120,7 +122,7 @@ public class Order {
         String part1 =  "Order: " + this.getObjectID() +
                 "\nOderID: " + this.getObjectID()+
                 "\nOrdered: " + this.ordered.toString()+
-                "\nShipped: " + this.shipped.toString() +
+                "\nShipped: " + (this.shipped != null ? this.shipped.toString() : "---") +
                 "\nShip TO: " + this.getAddress()+
                 "\nStatus: " + this.getStatus().toString() +
                 "\nTotal: " + this.total +

@@ -188,7 +188,7 @@ public class Main {
 
                     break;
                 case 6:
-                    if (user_connected != false) {
+                    if (user_connected) {
                         try {
                             Scanner scanner6 = new Scanner(System.in);
                             System.out.println("Please enter Order ID: ");
