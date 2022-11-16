@@ -5,11 +5,11 @@ import java.util.*;
 public class Account {
    private static int numOfAccounts = 0; 
    private final String objectID;
-
+   private Order lastOrder = null;
    private final String id;
-   private String billing_address;
+   private final String billing_address;
    private boolean is_closed;
-   private Date open;
+   private final Date open;
    private Date closed;
    private int balance;
    private static HashMap<String, Account> registeredAccounts = new HashMap<>();
@@ -35,13 +35,18 @@ public class Account {
         this.balance = 0;
         this.id = id;
         this.orders = new HashMap<>();
-        //this.orders = new ArrayList<>();
         this.payments = new ArrayList<>();
         this.shoppingCart = new ShoppingCart();
+        this.shoppingCart.setAccount(this);
         registeredAccounts.put(id, this);
 
     }
 
+    /**\
+     * Order Exist.
+     * @param OrderID get from user (unique for each order).
+     * @return
+     */
     public boolean OrderExist(String OrderID){
         return orders.containsKey(OrderID);
     }
@@ -60,12 +65,16 @@ public class Account {
 
 
     public String addOrder(String address){
-        Order order = new Order(address);
+        Order order = new Order(address, this);
         String orderID = order.getID();
         orders.put(orderID, order);
+        lastOrder = order;
         return orderID;
     }
 
+    public Order getLastOrder() {
+        return lastOrder;
+    }
 
     /**
      * @return Person billing address.
@@ -125,7 +134,6 @@ public class Account {
     public Collection<Order> getOrders() {
         return this.orders.values();
     }
-
     /**
      * Remove account from all links.
      */
@@ -149,7 +157,11 @@ public class Account {
      */
     public String getObjectID()
     {
-        return "Account " + this.objectID;
+        return this.objectID;
+    }
+    public String showObject()
+    {
+        return "Account: " + this.objectID;
     }
 
     /**
@@ -183,11 +195,10 @@ public class Account {
         String part1 = "Account: " + this.getObjectID() +
                 "\nID: " + this.getID()+
                 "\nBilling Address: " + this.getBilling_address()+
-                "\nIs Closed: " + this.getIsClosed()+
-                "\nOpen: " + this.getOpen().toString()+
-                "\nClosed: " + this.getClosed().toString()+
+                "\nIs Closed: false" +
+                "\nOpen: " + this.getOpen().toString() +
+                "\nClosed: TBD" +
                 "\nBalance: " + this.getBalance()+
-
                 "\nConnected Items: " +
                 "\n" + this.getShoppingCart().getObjectID();
 
@@ -216,5 +227,9 @@ public class Account {
         return this.objectID.equals(a.getObjectID());
     }
 
+    public void addPayment(Payment p)
+    {
+        this.getPayments().add(p);
+    }
 
 }

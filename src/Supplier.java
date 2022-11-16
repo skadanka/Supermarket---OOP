@@ -25,6 +25,10 @@ public class Supplier {
         this.products = new HashMap<>();
 //        addToAllSuppliers(this);
     }
+    public String showObject()
+    {
+        return "Supplier: " + this.getObjectID();
+    }
 
     public String getObjectID(){
         return this.object_id;
@@ -70,6 +74,30 @@ public class Supplier {
     /**
      * ?????
      */
+
+
+    @Override
+    public String toString() {
+        String part1 = "Supplier: " + this.getObjectID() +
+                "\nID: " + this.id+
+                "\nName: " + this.name;
+
+
+        StringBuilder prod = new StringBuilder();
+
+        if (this.getProducts().size() != 0)
+        {
+            prod.append("\nConnected Items: ");
+            for (Product p:
+                    this.getProducts()) {
+                prod.append("\n").append(p.getObjectID());
+            }
+
+        }
+
+        return part1 + prod.toString();
+    }
+
 
 
 

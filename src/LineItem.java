@@ -15,13 +15,17 @@ public class LineItem {
 
 
     public LineItem(int quantity, float price, ShoppingCart shoppingCart, Order order, Product product) {
-        this.ObjectID = "li" + String.valueOf(numOfLineItems++);
+        this.ObjectID = "LI" + String.valueOf(numOfLineItems++);
         this.quantity = quantity;
         this.price = price;
         this.shoppingCart = shoppingCart;
         this.order = order;
         this.product = product;
         addToAllLineItems(this);
+    }
+    public String showObject()
+    {
+        return "Line Item: " + this.ObjectID;
     }
 
     private void addToAllLineItems(LineItem lineItem){
@@ -78,13 +82,17 @@ public class LineItem {
     //     }
     // }
 
-    @Override
     public String toString() {
-        return "{" +
-            " quantity='" + getQuantity() + "'" +
-            ", price='" + getPrice() + "'" +
-            "}";
+        return  "Line Item: " + this.getID() +
+                "\nQuantity: " + this.quantity+
+                "\nPrice: " + this.price+
+                "\nConnected Objects: " +
+                "\nShopping Cart: " + this.getShoppingCart().getObjectID() +
+                "\nOrder: " + this.getOrder().getObjectID() +
+                "\nProduct: " + this.getProduct().getObjectID();
+
     }
+
 
     public Product getProduct() {
         return this.product;

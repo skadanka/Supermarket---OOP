@@ -5,10 +5,12 @@ public class PremiumAccount extends Account{
     
     private Map<String, ProductInfo> products;
 
-    public PremiumAccount(String billing_address, String id) {
+    public PremiumAccount(String id, String billing_address) {
         super(id, billing_address);
         this.products = new HashMap<>();
     }
+
+
 
 //    public boolean addProduct(Product product, int price, float discount, int quantity, int minForDiscount){
 //        if(price < 0)
@@ -44,15 +46,25 @@ public class PremiumAccount extends Account{
         return products.get(productName);
     }
 
-
+    /**
+     * @return Class name + object Id.
+     */
+    public String getObjectID()
+    {
+        return super.getObjectID();
+    }
+    public String showObject()
+    {
+        return "Premium " + super.showObject();
+    }
     @Override
     public String toString() {
         String part1 = "Premium Account: " + this.getObjectID() +
                 "\nID: " + this.getID()+
                 "\nBilling Address: " + this.getBilling_address()+
-                "\nIs Closed: " + this.getClosed()+
+                "\nIs Closed: false" +
                 "\nOpen: " + this.getOpen().toString()+
-                "\nClosed: " + this.getClosed().toString()+
+                "\nClosed: TBD" +
                 "\nBalance: " + this.getBalance()+
 
                 "\nConnected Items: " +

@@ -12,19 +12,24 @@ public abstract class Payment {
    private Date paid;
    private float total;
    private String Details;
+   private Order order;
+   private Account account;
 
     // Links
     // Payment payment;
     // Account account;
 
-    public Payment(String id, Date paid, float total, String Details) {
+    public Payment(String id, String Details, Order order, Account account) {
         this.objectID = "PA" + String.valueOf(numOfPayments);
-        this.id = String.valueOf(numOfPayments++);
-        this.paid = paid;
-        this.total = total;
+        this.id = id;
+        this.paid = new Date();
+        this.total = 0;
         this.Details = Details;
         allPayments.put(objectID,this);
+        this.order = order;
+        this.account = account;
     }
+
 
     public static Collection<Payment> getAllPayments(){
         return allPayments.values();
@@ -38,6 +43,10 @@ public abstract class Payment {
         return "Payment: " + this.id;
     }
 
+    public String showObject()
+    {
+        return "Payment: " + this.getObjectID();
+    }
 
     public Date getPaid() {
         return this.paid;
@@ -76,14 +85,11 @@ public abstract class Payment {
         return this.id == payment.id;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", paid='" + getPaid() + "'" +
-            ", total='" + getTotal() + "'" +
-            ", Details='" + getDetails() + "'" +
-            "}";
+    public Account getAccount() {
+        return account;
     }
 
+    public Order getOrder() {
+        return order;
+    }
 }

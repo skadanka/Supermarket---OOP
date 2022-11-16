@@ -31,6 +31,7 @@ public class User{
         this.objectID = "US" + String.valueOf(usersCounter++);
         registeredUsers.put(login_id, this);
         this.shoppingCart = this.customer.getAccount().getShoppingCart();
+        this.shoppingCart.setUser(this);
 
     }
 
@@ -81,8 +82,14 @@ public class User{
      */
     public String getObjectID()
     {
-        return "User "  + this.objectID;
+        return this.objectID;
     }
+
+    public String showObject()
+    {
+        return "User: " + this.objectID;
+    }
+
 
     /**
      * @return Customer related to user.
